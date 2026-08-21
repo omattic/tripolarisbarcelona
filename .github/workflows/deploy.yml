@@ -1,0 +1,77 @@
+name: Deploy to W7S
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Verify static files
+        run: node scripts/verify-static.mjs
+
+      - name: Capture deployment timestamp
+        id: metadata
+        run: echo "deployed_at=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_OUTPUT"
+
+      - name: Assemble W7S artifact
+        env:
+          DEPLOYED_AT: ${{ steps.metadata.outputs.deployed_at }}
+        run: |
+          set -euo pipefail
+          rm -rf .w7s-deploy
+          mkdir -p .w7s-deploy
+          cp index.html styles.css script.js README.md .w7s-deploy/
+          cp -R assets docs .w7s-deploy/
+          node - <<'NODE'
+          const fs = require("node:fs");
+          const health = {
+            branch: process.env.GITHUB_REF_NAME,
+            commitHash: process.env.GITHUB_SHA,
+            deployedAt: process.env.DEPLOYED_AT
+          };
+          fs.writeFileSync(".w7s-deploy/health.json", `${JSON.stringify(health, null, 2)}\n`);
+          NODE
+
+      - uses: w7s-io/w7s-cloud@v1
+        with:
+          token: ${{ github.token }}
+          working-directory: .w7s-deploy
+
+      - name: Verify live deployment
+        run: |
+          set -euo pipefail
+          curl --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/" | grep -i "Tripolaris"
+          curl --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/health.json" | tee health.json
+          node - <<'NODE'
+          const fs = require("node:fs");
+          const health = JSON.parse(fs.readFileSync("health.json", "utf8"));
+          if (health.branch !== process.env.GITHUB_REF_NAME) {
+            throw new Error(`Live branch ${health.branch} did not match ${process.env.GITHUB_REF_NAME}`);
+          }
+          if (health.commitHash !== process.env.GITHUB_SHA) {
+            throw new Error(`Live commit ${health.commitHash} did not match ${process.env.GITHUB_SHA}`);
+          }
+          if (!health.deployedAt) {
+            throw new Error("Live health is missing deployedAt");
+          }
+          NODE

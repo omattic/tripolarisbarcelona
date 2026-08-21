@@ -36,4 +36,26 @@ Keep `.scrape/` out of git.
 ```bash
 python3 -m http.server 4177
 curl -I http://127.0.0.1:4177/
+node scripts/verify-static.mjs
+```
+
+## W7S Deploy
+
+Deployment runs from GitHub Actions on pushes to `main`.
+
+```bash
+gh workflow run "Deploy to W7S"
+gh run list --workflow "Deploy to W7S" --limit 5
+```
+
+Live URL:
+
+```text
+https://omattic.w7s.cloud/tripolarisbarcelona/
+```
+
+Live metadata:
+
+```text
+https://omattic.w7s.cloud/tripolarisbarcelona/health.json
 ```

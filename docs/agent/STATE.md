@@ -20,4 +20,4 @@ The repo includes:
 ## Known Gaps
 
 - Digital menu links are placeholders until the menu URLs or QR targets are provided.
-- No W7S deployment has been configured yet.
+- W7S deploy verification should pass before treating the `w7s.cloud` URL as live.
