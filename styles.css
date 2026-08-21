@@ -325,6 +325,107 @@ h3 {
   text-decoration: none;
 }
 
+.menu-links a.active,
+.menu-links a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(232, 196, 111, 0.08);
+}
+
+.pdf-viewer {
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  scroll-margin-top: 5.5rem;
+}
+
+.pdf-viewer[hidden] {
+  display: none;
+}
+
+.pdf-viewer-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pdf-viewer-header h3 {
+  margin: 0;
+  color: var(--accent);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+}
+
+.pdf-open-link {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.pdf-open-link:hover {
+  color: var(--text);
+}
+
+.pdf-frame-wrap {
+  position: relative;
+  min-height: clamp(32rem, 78vh, 52rem);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(20, 13, 24, 0.78);
+}
+
+.pdf-frame-wrap iframe {
+  display: block;
+  width: 100%;
+  height: clamp(32rem, 78vh, 52rem);
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: #1c1420;
+}
+
+.pdf-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  align-content: center;
+  padding: 2rem;
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+  background: rgba(20, 13, 24, 0.92);
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.pdf-frame-wrap:not(.is-loading) .pdf-loader {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid rgba(232, 196, 111, 0.26);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 780ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .contact-grid {
   grid-template-columns: 0.75fr 0.65fr 1.1fr;
 }
@@ -422,6 +523,11 @@ footer {
   .feature-list,
   .menu-links {
     grid-template-columns: 1fr;
+  }
+
+  .pdf-viewer-header {
+    align-items: start;
+    flex-direction: column;
   }
 }
 

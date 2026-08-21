@@ -74,9 +74,27 @@
           <h2 id="menu-title" data-i18n="menuTitle">Carta digital</h2>
         </div>
         <div class="menu-links" aria-label="Digital menu links">
-          <a href="assets/carta-es.pdf" data-i18n="menuSpanish">Espanol</a>
-          <a href="assets/carta-ca.pdf" data-i18n="menuCatalan">Catala</a>
-          <a href="assets/carta-en.pdf" data-i18n="menuEnglish">English</a>
+          <a href="assets/carta-es.pdf" data-pdf-link data-i18n="menuSpanish">Espanol</a>
+          <a href="assets/carta-ca.pdf" data-pdf-link data-i18n="menuCatalan">Catala</a>
+          <a href="assets/carta-en.pdf" data-pdf-link data-i18n="menuEnglish">English</a>
+        </div>
+        <div class="pdf-viewer" id="menu-pdf-viewer" hidden>
+          <div class="pdf-viewer-header">
+            <div>
+              <p class="eyebrow" data-i18n="pdfEyebrow">Carta seleccionada</p>
+              <h3 id="menu-pdf-title">Espanol</h3>
+            </div>
+            <a class="pdf-open-link" href="assets/carta-es.pdf" target="_blank" rel="noopener" data-i18n="pdfOpen">
+              Abrir en nueva pestana
+            </a>
+          </div>
+          <div class="pdf-frame-wrap is-loading">
+            <div class="pdf-loader" role="status">
+              <span class="spinner" aria-hidden="true"></span>
+              <span data-i18n="pdfLoading">Cargando carta...</span>
+            </div>
+            <iframe id="menu-pdf-frame" title="Tripolaris carta PDF"></iframe>
+          </div>
         </div>
       </section>
 

@@ -30,6 +30,9 @@ for (const text of [
   "assets/carta-ca.pdf",
   "assets/carta-es.pdf",
   "assets/carta-en.pdf",
+  "id=\"menu-pdf-viewer\"",
+  "id=\"menu-pdf-frame\"",
+  "data-pdf-link",
   "script.js"
 ]) {
   if (!html.includes(text)) {
@@ -41,6 +44,12 @@ const script = readFileSync(join(root, "script.js"), "utf8");
 for (const lang of ["es", "ca", "en"]) {
   if (!script.includes(`${lang}: {`)) {
     throw new Error(`script.js is missing ${lang} translations`);
+  }
+}
+
+for (const text of ["pdfLoading", "pdfFrame", "data-pdf-link"]) {
+  if (!script.includes(text)) {
+    throw new Error(`script.js is missing ${text}`);
   }
 }
 

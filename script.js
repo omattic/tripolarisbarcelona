@@ -21,6 +21,9 @@ const translations = {
     menuSpanish: "Espanol",
     menuCatalan: "Catala",
     menuEnglish: "English",
+    pdfEyebrow: "Carta seleccionada",
+    pdfOpen: "Abrir en nueva pestana",
+    pdfLoading: "Cargando carta...",
     contactEyebrow: "Contacto",
     contactTitle: "Visitanos en Les Corts",
     maps: "Google Maps",
@@ -55,6 +58,9 @@ const translations = {
     menuSpanish: "Espanol",
     menuCatalan: "Catala",
     menuEnglish: "English",
+    pdfEyebrow: "Carta seleccionada",
+    pdfOpen: "Obrir en una pestanya nova",
+    pdfLoading: "Carregant carta...",
     contactEyebrow: "Contacte",
     contactTitle: "Visita'ns a Les Corts",
     maps: "Google Maps",
@@ -89,6 +95,9 @@ const translations = {
     menuSpanish: "Spanish",
     menuCatalan: "Catalan",
     menuEnglish: "English",
+    pdfEyebrow: "Selected menu",
+    pdfOpen: "Open in new tab",
+    pdfLoading: "Loading menu...",
     contactEyebrow: "Contact",
     contactTitle: "Visit us in Les Corts",
     maps: "Google Maps",
@@ -115,8 +124,53 @@ const applyLanguage = (language) => {
   document.querySelectorAll("[data-lang]").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === language);
   });
+  updatePdfTitle();
 };
 
 document.querySelectorAll("[data-lang]").forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+});
+
+const pdfViewer = document.querySelector("#menu-pdf-viewer");
+const pdfFrame = document.querySelector("#menu-pdf-frame");
+const pdfFrameWrap = document.querySelector(".pdf-frame-wrap");
+const pdfOpenLink = document.querySelector(".pdf-open-link");
+const pdfTitle = document.querySelector("#menu-pdf-title");
+const pdfLinks = document.querySelectorAll("[data-pdf-link]");
+
+function updatePdfTitle() {
+  const activeLink = document.querySelector("[data-pdf-link].active");
+  if (activeLink && pdfTitle) {
+    pdfTitle.textContent = activeLink.textContent.trim();
+  }
+}
+
+pdfFrame?.addEventListener("load", () => {
+  pdfFrameWrap?.classList.remove("is-loading");
+});
+
+pdfLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const pdfUrl = link.getAttribute("href");
+    if (!pdfUrl || !pdfViewer || !pdfFrame || !pdfFrameWrap || !pdfOpenLink) {
+      return;
+    }
+
+    pdfLinks.forEach((item) => item.classList.toggle("active", item === link));
+    updatePdfTitle();
+
+    pdfViewer.hidden = false;
+    pdfFrameWrap.classList.add("is-loading");
+    pdfOpenLink.setAttribute("href", pdfUrl);
+
+    if (pdfFrame.getAttribute("src") === pdfUrl) {
+      pdfFrame.contentWindow?.location.reload();
+    } else {
+      pdfFrame.setAttribute("src", pdfUrl);
+    }
+
+    pdfViewer.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 });
