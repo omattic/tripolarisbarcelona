@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tripolaris | Cocteleria de Autor en Les Corts, Barcelona</title>
+    <meta
+      name="description"
+      content="Tripolaris, creative drinks and cultural vibes in Les Corts, Barcelona."
+    />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Tripolaris home">
+        <img src="assets/tripolaris-logo.png" alt="Tripolaris" />
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#about" data-i18n="navAbout">Sobre Nosotros</a>
+        <a href="#menu" data-i18n="navMenu">La Carta</a>
+        <a href="#contact" data-i18n="navContact">Contacto</a>
+      </nav>
+      <div class="language-switcher" aria-label="Language">
+        <button type="button" class="active" data-lang="es">ES</button>
+        <button type="button" data-lang="ca">CA</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-art">
+          <img src="assets/tripolaris-triangle.png" alt="" />
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="tagline">Creative Drinks | Cultural Vibes</p>
+          <h1 id="hero-title">Tripolaris</h1>
+          <p data-i18n="heroSubtitle">Cocteleria de autor en Les Corts, Barcelona</p>
+          <a class="button" href="#menu" data-i18n="heroCta">Ver la Carta</a>
+        </div>
+      </section>
+
+      <section class="section about" id="about" aria-labelledby="about-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="aboutEyebrow">Sobre Nosotros</p>
+          <h2 id="about-title" data-i18n="aboutTitle">Un bar con tres almas</h2>
+        </div>
+        <div class="about-grid">
+          <p data-i18n="aboutText">
+            Tripolaris nace de la pasion de Nelio, Angelo y Cesar, tres amigos que
+            mezclan cocteleria de autor, musica en vivo y cultura local en Les Corts.
+          </p>
+          <div class="feature-list">
+            <article>
+              <h3 data-i18n="featureOneTitle">Mixologia</h3>
+              <p data-i18n="featureOneText">Cocteles creativos preparados con tecnica, color y personalidad.</p>
+            </article>
+            <article>
+              <h3 data-i18n="featureTwoTitle">Musica en Vivo</h3>
+              <p data-i18n="featureTwoText">Sesiones y noches culturales para quedarse un rato mas.</p>
+            </article>
+            <article>
+              <h3 data-i18n="featureThreeTitle">Cultura</h3>
+              <p data-i18n="featureThreeText">Un punto de encuentro cercano en el barrio de Les Corts.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section menu" id="menu" aria-labelledby="menu-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="menuEyebrow">La Carta</p>
+          <h2 id="menu-title" data-i18n="menuTitle">Carta digital</h2>
+        </div>
+        <div class="menu-links" aria-label="Digital menu links">
+          <a href="#" data-i18n="menuSpanish">Espanol</a>
+          <a href="#" data-i18n="menuCatalan">Catala</a>
+          <a href="#" data-i18n="menuEnglish">English</a>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact" aria-labelledby="contact-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="contactEyebrow">Contacto</p>
+          <h2 id="contact-title" data-i18n="contactTitle">Visitanos en Les Corts</h2>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-details">
+            <address>
+              <strong>Carrer Joan Guell, 150</strong><br />
+              Les Corts, Barcelona
+            </address>
+            <a href="tel:+34656872209">+34 656 872 209</a>
+            <div class="quick-actions">
+              <a class="button secondary" href="https://wa.me/34656872209">WhatsApp</a>
+              <a class="button secondary" href="https://maps.google.com/?q=Carrer+Joan+Guell+150+Barcelona" data-i18n="maps">
+                Google Maps
+              </a>
+            </div>
+            <div class="social-links">
+              <a href="https://www.instagram.com/tripolaris_bcn/">Instagram</a>
+              <a href="https://www.facebook.com/profile.php?id=61575192498498">Facebook</a>
+            </div>
+          </div>
+          <div class="hours" aria-label="Opening hours">
+            <div><span data-i18n="monday">Lunes</span><strong>16:30-01:00</strong></div>
+            <div><span data-i18n="tuesday">Martes</span><strong data-i18n="closed">Cerrado</strong></div>
+            <div><span data-i18n="wednesday">Miercoles</span><strong>16:30-01:00</strong></div>
+            <div><span data-i18n="thursday">Jueves</span><strong>16:30-01:00</strong></div>
+            <div><span data-i18n="friday">Viernes</span><strong>16:30-02:30</strong></div>
+            <div><span data-i18n="saturday">Sabado</span><strong>16:30-02:30</strong></div>
+            <div><span data-i18n="sunday">Domingo</span><strong>16:30-00:00</strong></div>
+          </div>
+          <iframe
+            title="Tripolaris on Google Maps"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Carrer%20Joan%20G%C3%BCell%20150%20Barcelona&output=embed"
+          ></iframe>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Tripolaris</span>
+      <span data-i18n="tagline">Creative Drinks | Cultural Vibes</span>
+      <span>2026</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
