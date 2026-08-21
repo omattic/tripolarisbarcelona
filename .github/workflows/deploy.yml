@@ -39,9 +39,9 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf .w7s-deploy
-          mkdir -p .w7s-deploy
-          cp index.html styles.css script.js README.md .w7s-deploy/
-          cp -R assets docs .w7s-deploy/
+          mkdir -p .w7s-deploy/dist
+          cp index.html styles.css script.js README.md .w7s-deploy/dist/
+          cp -R assets docs .w7s-deploy/dist/
           node - <<'NODE'
           const fs = require("node:fs");
           const health = {
@@ -49,7 +49,7 @@ jobs:
             commitHash: process.env.GITHUB_SHA,
             deployedAt: process.env.DEPLOYED_AT
           };
-          fs.writeFileSync(".w7s-deploy/health.json", `${JSON.stringify(health, null, 2)}\n`);
+          fs.writeFileSync(".w7s-deploy/dist/health.json", `${JSON.stringify(health, null, 2)}\n`);
           NODE
 
       - uses: w7s-io/w7s-cloud@v1
