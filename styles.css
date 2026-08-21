@@ -498,6 +498,35 @@ address {
   margin-top: 1.25rem;
 }
 
+.social-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1.5rem;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.4rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: rgba(232, 196, 111, 0.08);
+  color: var(--accent);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.social-links a:hover {
+  background: var(--accent);
+  color: var(--bg-deep);
+}
+
 .hours {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -635,5 +664,9 @@ footer {
   .button {
     width: min(100%, 14.4rem);
     padding-inline: 1rem;
+  }
+
+  .social-links {
+    grid-template-columns: 1fr;
   }
 }
