@@ -383,11 +383,22 @@ footer {
 @media (max-width: 880px) {
   .site-header {
     position: static;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
     background: var(--bg);
   }
 
+  .brand {
+    grid-column: 1;
+  }
+
+  .language-switcher {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+
   .main-nav {
+    grid-column: 1 / -1;
     justify-content: flex-start;
     overflow-x: auto;
     padding-bottom: 0.2rem;
@@ -432,7 +443,7 @@ footer {
   }
 
   .language-switcher {
-    justify-self: center;
+    justify-self: end;
   }
 
   .hero {
