@@ -369,21 +369,12 @@ body.pdf-open {
 .pdf-toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 1rem;
   min-height: 5.6rem;
   padding: 1rem clamp(1rem, 4vw, 3rem);
   border-bottom: 1px solid var(--line);
   background: rgba(20, 13, 24, 0.78);
-}
-
-.pdf-toolbar h2 {
-  margin: 0;
-  font-size: clamp(1.6rem, 3vw, 2.8rem);
-}
-
-.pdf-toolbar .eyebrow {
-  margin-bottom: 0.35rem;
 }
 
 .pdf-toolbar-actions {

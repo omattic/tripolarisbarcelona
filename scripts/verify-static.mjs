@@ -35,6 +35,7 @@ for (const text of [
   "assets/carta-en.pdf",
   "id=\"menu-pdf-viewer\"",
   "id=\"menu-pdf-pages\"",
+  "aria-label=\"Carta PDF\"",
   "data-pdf-link",
   "data-pdf-loading-text",
   "script.js",
