@@ -32,6 +32,14 @@ https://tripolarisbarcelona.com/carta-es.pdf
 https://tripolarisbarcelona.com/carta-en.pdf
 ```
 
+The in-page carta reader vendors PDF.js under `assets/pdfjs/`. Refresh from npm when needed:
+
+```bash
+npm view pdfjs-dist version
+curl -L --fail --show-error --silent https://unpkg.com/pdfjs-dist@<version>/build/pdf.mjs -o assets/pdfjs/pdf.mjs
+curl -L --fail --show-error --silent https://unpkg.com/pdfjs-dist@<version>/build/pdf.worker.mjs -o assets/pdfjs/pdf.worker.mjs
+```
+
 Keep `.scrape/` out of git.
 
 ## Verification

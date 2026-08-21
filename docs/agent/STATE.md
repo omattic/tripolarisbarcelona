@@ -14,7 +14,7 @@ The repo includes:
 
 - Static HTML, CSS, and JavaScript.
 - Public logo, triangle artwork, and favicon under `assets/`.
-- Local ES, CA, and EN carta PDFs under `assets/`, opened from the digital menu section in an embedded in-page PDF viewer with loading feedback.
+- Local ES, CA, and EN carta PDFs under `assets/`, opened from the digital menu section in a full-screen in-page PDF.js viewer with loading feedback.
 - A stylized dark-purple and gold landing hero inspired by the Tripolaris visual reference, with centered branding and a minimal CTA.
 - ES, CA, and EN language switch controls.
 - Contact, hours, phone, WhatsApp, social, and map links from the public page.

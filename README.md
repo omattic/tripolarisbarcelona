@@ -45,6 +45,7 @@ gh workflow run "Deploy to W7S"
 - `index.html`: static page structure
 - `styles.css`: responsive visual styling
 - `script.js`: ES, CA, and EN language switcher
+- `pdf-viewer.mjs`: full-screen PDF.js carta reader
 - `assets/`: public logo, triangle art, favicon, and carta PDFs copied from the source site
 - `.github/workflows/deploy.yml`: W7S deployment workflow
 

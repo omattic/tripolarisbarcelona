@@ -6,12 +6,15 @@ const requiredFiles = [
   "index.html",
   "styles.css",
   "script.js",
+  "pdf-viewer.mjs",
   "assets/favicon.svg",
   "assets/tripolaris-logo.png",
   "assets/tripolaris-triangle.png",
   "assets/carta-ca.pdf",
   "assets/carta-es.pdf",
-  "assets/carta-en.pdf"
+  "assets/carta-en.pdf",
+  "assets/pdfjs/pdf.mjs",
+  "assets/pdfjs/pdf.worker.mjs"
 ];
 
 for (const file of requiredFiles) {
@@ -31,10 +34,11 @@ for (const text of [
   "assets/carta-es.pdf",
   "assets/carta-en.pdf",
   "id=\"menu-pdf-viewer\"",
-  "id=\"menu-pdf-frame\"",
+  "id=\"menu-pdf-pages\"",
   "data-pdf-link",
   "data-pdf-loading-text",
-  "script.js"
+  "script.js",
+  "pdf-viewer.mjs"
 ]) {
   if (!html.includes(text)) {
     throw new Error(`index.html is missing ${text}`);
@@ -48,9 +52,10 @@ for (const lang of ["es", "ca", "en"]) {
   }
 }
 
-for (const text of ["pdfLoading", "pdfError", "pdfFrame", "data-pdf-link", "application/pdf"]) {
-  if (!script.includes(text)) {
-    throw new Error(`script.js is missing ${text}`);
+const pdfViewer = readFileSync(join(root, "pdf-viewer.mjs"), "utf8");
+for (const text of ["pdfLoading", "pdfError", "pdfjsLib", "data-pdf-link", "renderPage"]) {
+  if (!pdfViewer.includes(text)) {
+    throw new Error(`pdf-viewer.mjs is missing ${text}`);
   }
 }
 

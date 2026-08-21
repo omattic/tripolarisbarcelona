@@ -9,7 +9,7 @@
       content="Tripolaris, creative drinks and cultural vibes in Les Corts, Barcelona."
     />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=20260821-2" />
+    <link rel="stylesheet" href="styles.css?v=20260821-3" />
   </head>
   <body>
     <header class="site-header">
@@ -78,24 +78,6 @@
           <a href="assets/carta-ca.pdf" data-pdf-link data-i18n="menuCatalan">Catala</a>
           <a href="assets/carta-en.pdf" data-pdf-link data-i18n="menuEnglish">English</a>
         </div>
-        <div class="pdf-viewer" id="menu-pdf-viewer" hidden>
-          <div class="pdf-viewer-header">
-            <div>
-              <p class="eyebrow" data-i18n="pdfEyebrow">Carta seleccionada</p>
-              <h3 id="menu-pdf-title">Espanol</h3>
-            </div>
-            <a class="pdf-open-link" href="assets/carta-es.pdf" target="_blank" rel="noopener" data-i18n="pdfOpen">
-              Abrir en nueva pestana
-            </a>
-          </div>
-          <div class="pdf-frame-wrap is-loading">
-            <div class="pdf-loader" role="status">
-              <span class="spinner" aria-hidden="true"></span>
-              <span data-pdf-loading-text data-i18n="pdfLoading">Cargando carta...</span>
-            </div>
-            <iframe id="menu-pdf-frame" title="Tripolaris carta PDF"></iframe>
-          </div>
-        </div>
       </section>
 
       <section class="section contact" id="contact" aria-labelledby="contact-title">
@@ -146,6 +128,31 @@
       <span>2026</span>
     </footer>
 
-    <script src="script.js?v=20260821-2"></script>
+    <div class="pdf-overlay" id="menu-pdf-viewer" role="dialog" aria-modal="true" aria-labelledby="menu-pdf-title" hidden>
+      <div class="pdf-toolbar">
+        <div>
+          <p class="eyebrow" data-i18n="pdfEyebrow">Carta seleccionada</p>
+          <h2 id="menu-pdf-title">Espanol</h2>
+        </div>
+        <div class="pdf-toolbar-actions">
+          <a class="pdf-open-link" href="assets/carta-es.pdf" target="_blank" rel="noopener" data-i18n="pdfOpen">
+            Abrir en nueva pestana
+          </a>
+          <button class="pdf-close-button" type="button" data-pdf-close aria-label="Cerrar carta">
+            &times;
+          </button>
+        </div>
+      </div>
+      <div class="pdf-stage">
+        <div class="pdf-loader is-visible" role="status">
+          <span class="spinner" aria-hidden="true"></span>
+          <span data-pdf-loading-text data-i18n="pdfLoading">Cargando carta...</span>
+        </div>
+        <div class="pdf-pages" id="menu-pdf-pages" aria-label="Carta PDF"></div>
+      </div>
+    </div>
+
+    <script src="script.js?v=20260821-3"></script>
+    <script type="module" src="pdf-viewer.mjs?v=20260821-2"></script>
   </body>
 </html>
