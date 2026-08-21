@@ -24,6 +24,7 @@ const translations = {
     pdfEyebrow: "Carta seleccionada",
     pdfOpen: "Abrir en nueva pestana",
     pdfLoading: "Cargando carta...",
+    pdfError: "No se pudo cargar la carta",
     contactEyebrow: "Contacto",
     contactTitle: "Visitanos en Les Corts",
     maps: "Google Maps",
@@ -61,6 +62,7 @@ const translations = {
     pdfEyebrow: "Carta seleccionada",
     pdfOpen: "Obrir en una pestanya nova",
     pdfLoading: "Carregant carta...",
+    pdfError: "No s'ha pogut carregar la carta",
     contactEyebrow: "Contacte",
     contactTitle: "Visita'ns a Les Corts",
     maps: "Google Maps",
@@ -98,6 +100,7 @@ const translations = {
     pdfEyebrow: "Selected menu",
     pdfOpen: "Open in new tab",
     pdfLoading: "Loading menu...",
+    pdfError: "Could not load the menu",
     contactEyebrow: "Contact",
     contactTitle: "Visit us in Les Corts",
     maps: "Google Maps",
@@ -136,7 +139,10 @@ const pdfFrame = document.querySelector("#menu-pdf-frame");
 const pdfFrameWrap = document.querySelector(".pdf-frame-wrap");
 const pdfOpenLink = document.querySelector(".pdf-open-link");
 const pdfTitle = document.querySelector("#menu-pdf-title");
+const pdfLoadingText = document.querySelector("[data-pdf-loading-text]");
 const pdfLinks = document.querySelectorAll("[data-pdf-link]");
+let pdfRequestToken = 0;
+let pdfObjectUrl = "";
 
 function updatePdfTitle() {
   const activeLink = document.querySelector("[data-pdf-link].active");
@@ -147,28 +153,53 @@ function updatePdfTitle() {
 
 pdfFrame?.addEventListener("load", () => {
   pdfFrameWrap?.classList.remove("is-loading");
+  pdfFrameWrap?.classList.remove("is-error");
 });
 
 pdfLinks.forEach((link) => {
-  link.addEventListener("click", (event) => {
+  link.addEventListener("click", async (event) => {
     event.preventDefault();
 
     const pdfUrl = link.getAttribute("href");
-    if (!pdfUrl || !pdfViewer || !pdfFrame || !pdfFrameWrap || !pdfOpenLink) {
+    if (!pdfUrl || !pdfViewer || !pdfFrame || !pdfFrameWrap || !pdfOpenLink || !pdfLoadingText) {
       return;
     }
+
+    const requestToken = ++pdfRequestToken;
+    const language = document.documentElement.lang;
+    const dictionary = translations[language] || translations.es;
 
     pdfLinks.forEach((item) => item.classList.toggle("active", item === link));
     updatePdfTitle();
 
     pdfViewer.hidden = false;
     pdfFrameWrap.classList.add("is-loading");
+    pdfFrameWrap.classList.remove("is-error");
+    pdfLoadingText.textContent = dictionary.pdfLoading;
     pdfOpenLink.setAttribute("href", pdfUrl);
 
-    if (pdfFrame.getAttribute("src") === pdfUrl) {
-      pdfFrame.contentWindow?.location.reload();
-    } else {
-      pdfFrame.setAttribute("src", pdfUrl);
+    try {
+      const response = await fetch(pdfUrl);
+      if (!response.ok) {
+        throw new Error(`PDF request failed with ${response.status}`);
+      }
+
+      const pdfBytes = await response.arrayBuffer();
+      if (requestToken !== pdfRequestToken) {
+        return;
+      }
+
+      if (pdfObjectUrl) {
+        URL.revokeObjectURL(pdfObjectUrl);
+      }
+
+      pdfObjectUrl = URL.createObjectURL(new Blob([pdfBytes], { type: "application/pdf" }));
+      pdfFrame.setAttribute("src", pdfObjectUrl);
+    } catch {
+      if (requestToken === pdfRequestToken) {
+        pdfFrameWrap.classList.add("is-error");
+        pdfLoadingText.textContent = dictionary.pdfError;
+      }
     }
 
     pdfViewer.scrollIntoView({ behavior: "smooth", block: "start" });

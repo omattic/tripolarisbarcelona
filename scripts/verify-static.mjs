@@ -33,6 +33,7 @@ for (const text of [
   "id=\"menu-pdf-viewer\"",
   "id=\"menu-pdf-frame\"",
   "data-pdf-link",
+  "data-pdf-loading-text",
   "script.js"
 ]) {
   if (!html.includes(text)) {
@@ -47,7 +48,7 @@ for (const lang of ["es", "ca", "en"]) {
   }
 }
 
-for (const text of ["pdfLoading", "pdfFrame", "data-pdf-link"]) {
+for (const text of ["pdfLoading", "pdfError", "pdfFrame", "data-pdf-link", "application/pdf"]) {
   if (!script.includes(text)) {
     throw new Error(`script.js is missing ${text}`);
   }

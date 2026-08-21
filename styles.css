@@ -411,6 +411,10 @@ h3 {
   opacity: 0;
 }
 
+.pdf-frame-wrap.is-error .spinner {
+  display: none;
+}
+
 .spinner {
   width: 2.5rem;
   height: 2.5rem;
