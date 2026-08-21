@@ -27,6 +27,9 @@ Public assets were copied from:
 https://tripolarisbarcelona.com/images/tripolaris-logo.png
 https://tripolarisbarcelona.com/images/tripolaris-triangle.png
 https://tripolarisbarcelona.com/favicon.svg
+https://tripolarisbarcelona.com/carta-ca.pdf
+https://tripolarisbarcelona.com/carta-es.pdf
+https://tripolarisbarcelona.com/carta-en.pdf
 ```
 
 Keep `.scrape/` out of git.

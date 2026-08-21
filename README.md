@@ -45,7 +45,7 @@ gh workflow run "Deploy to W7S"
 - `index.html`: static page structure
 - `styles.css`: responsive visual styling
 - `script.js`: ES, CA, and EN language switcher
-- `assets/`: public logo, triangle art, and favicon copied from the source site
+- `assets/`: public logo, triangle art, favicon, and carta PDFs copied from the source site
 - `.github/workflows/deploy.yml`: W7S deployment workflow
 
 The raw scrape is kept in `.scrape/` locally and ignored by git.

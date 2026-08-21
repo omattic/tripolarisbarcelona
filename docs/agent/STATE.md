@@ -14,6 +14,7 @@ The repo includes:
 
 - Static HTML, CSS, and JavaScript.
 - Public logo, triangle artwork, and favicon under `assets/`.
+- Local ES, CA, and EN carta PDFs under `assets/`, linked from the digital menu section.
 - A stylized dark-purple and gold landing hero inspired by the Tripolaris visual reference, with centered branding and a minimal CTA.
 - ES, CA, and EN language switch controls.
 - Contact, hours, phone, WhatsApp, social, and map links from the public page.
@@ -26,5 +27,4 @@ The repo includes:
 
 ## Known Gaps
 
-- Digital menu links are placeholders until the menu URLs or QR targets are provided.
 - No custom domain is configured yet. The current production surface is the `omattic.w7s.cloud` path.

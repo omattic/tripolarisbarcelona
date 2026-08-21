@@ -8,7 +8,10 @@ const requiredFiles = [
   "script.js",
   "assets/favicon.svg",
   "assets/tripolaris-logo.png",
-  "assets/tripolaris-triangle.png"
+  "assets/tripolaris-triangle.png",
+  "assets/carta-ca.pdf",
+  "assets/carta-es.pdf",
+  "assets/carta-en.pdf"
 ];
 
 for (const file of requiredFiles) {
@@ -20,7 +23,15 @@ for (const file of requiredFiles) {
 }
 
 const html = readFileSync(join(root, "index.html"), "utf8");
-for (const text of ["Tripolaris", "assets/tripolaris-logo.png", "assets/tripolaris-triangle.png", "script.js"]) {
+for (const text of [
+  "Tripolaris",
+  "assets/tripolaris-logo.png",
+  "assets/tripolaris-triangle.png",
+  "assets/carta-ca.pdf",
+  "assets/carta-es.pdf",
+  "assets/carta-en.pdf",
+  "script.js"
+]) {
   if (!html.includes(text)) {
     throw new Error(`index.html is missing ${text}`);
   }
