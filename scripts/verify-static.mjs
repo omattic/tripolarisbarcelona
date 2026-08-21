@@ -36,6 +36,8 @@ for (const text of [
   "id=\"menu-pdf-viewer\"",
   "id=\"menu-pdf-pages\"",
   "aria-label=\"Carta PDF\"",
+  "aria-label=\"Descargar carta\"",
+  "download=\"carta-es.pdf\"",
   "data-pdf-link",
   "data-pdf-loading-text",
   "script.js",
@@ -54,7 +56,7 @@ for (const lang of ["es", "ca", "en"]) {
 }
 
 const pdfViewer = readFileSync(join(root, "pdf-viewer.mjs"), "utf8");
-for (const text of ["pdfLoading", "pdfError", "pdfjsLib", "data-pdf-link", "renderPage"]) {
+for (const text of ["pdfLoading", "pdfError", "pdfjsLib", "data-pdf-link", "renderPage", "setAttribute(\"download\""]) {
   if (!pdfViewer.includes(text)) {
     throw new Error(`pdf-viewer.mjs is missing ${text}`);
   }

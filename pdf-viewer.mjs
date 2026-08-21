@@ -99,6 +99,7 @@ const openViewer = async (link) => {
   document.body.classList.add("pdf-open");
   pages.replaceChildren();
   openLink.setAttribute("href", pdfUrl);
+  openLink.setAttribute("download", pdfUrl.split("/").pop() || "tripolaris-carta.pdf");
   setLoading(dictionary().pdfLoading || "Loading menu...");
   closeButton?.focus();
 

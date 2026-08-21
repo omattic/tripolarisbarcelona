@@ -9,7 +9,7 @@
       content="Tripolaris, creative drinks and cultural vibes in Les Corts, Barcelona."
     />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=20260821-4" />
+    <link rel="stylesheet" href="styles.css?v=20260821-5" />
   </head>
   <body>
     <header class="site-header">
@@ -131,8 +131,10 @@
     <div class="pdf-overlay" id="menu-pdf-viewer" role="dialog" aria-modal="true" aria-label="Carta PDF" hidden>
       <div class="pdf-toolbar">
         <div class="pdf-toolbar-actions">
-          <a class="pdf-open-link" href="assets/carta-es.pdf" target="_blank" rel="noopener" data-i18n="pdfOpen">
-            Abrir en nueva pestana
+          <a class="pdf-open-link" href="assets/carta-es.pdf" download="carta-es.pdf" aria-label="Descargar carta">
+            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+              <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" />
+            </svg>
           </a>
           <button class="pdf-close-button" type="button" data-pdf-close aria-label="Cerrar carta">
             &times;
@@ -149,6 +151,6 @@
     </div>
 
     <script src="script.js?v=20260821-3"></script>
-    <script type="module" src="pdf-viewer.mjs?v=20260821-2"></script>
+    <script type="module" src="pdf-viewer.mjs?v=20260821-3"></script>
   </body>
 </html>
