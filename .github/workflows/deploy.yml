@@ -42,6 +42,7 @@ jobs:
           mkdir -p .w7s-deploy/dist
           cp index.html styles.css script.js pdf-viewer.mjs README.md .w7s-deploy/dist/
           cp -R assets docs .w7s-deploy/dist/
+          cp CNAME .w7s-deploy/CNAME
           node - <<'NODE'
           const fs = require("node:fs");
           const health = {
@@ -62,9 +63,12 @@ jobs:
           set -euo pipefail
           curl --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/" | grep -i "Tripolaris"
           curl --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/health.json" | tee health.json
+          curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://tripolarisbarcelona.com/" | grep -i "Tripolaris"
+          curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://tripolarisbarcelona.com/health.json" | tee custom-health.json
           node - <<'NODE'
           const fs = require("node:fs");
           const health = JSON.parse(fs.readFileSync("health.json", "utf8"));
+          const customHealth = JSON.parse(fs.readFileSync("custom-health.json", "utf8"));
           if (health.branch !== process.env.GITHUB_REF_NAME) {
             throw new Error(`Live branch ${health.branch} did not match ${process.env.GITHUB_REF_NAME}`);
           }
@@ -73,5 +77,14 @@ jobs:
           }
           if (!health.deployedAt) {
             throw new Error("Live health is missing deployedAt");
+          }
+          if (customHealth.branch !== process.env.GITHUB_REF_NAME) {
+            throw new Error(`Custom-domain branch ${customHealth.branch} did not match ${process.env.GITHUB_REF_NAME}`);
+          }
+          if (customHealth.commitHash !== process.env.GITHUB_SHA) {
+            throw new Error(`Custom-domain commit ${customHealth.commitHash} did not match ${process.env.GITHUB_SHA}`);
+          }
+          if (!customHealth.deployedAt) {
+            throw new Error("Custom-domain health is missing deployedAt");
           }
           NODE

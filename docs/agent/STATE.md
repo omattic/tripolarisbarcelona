@@ -4,7 +4,13 @@
 
 `tripolarisbarcelona` is a static starter copy of the public Tripolaris Barcelona website at `https://tripolarisbarcelona.com/`.
 
-It is deployed to W7S at:
+It is deployed to W7S with a custom domain at:
+
+```text
+https://tripolarisbarcelona.com/
+```
+
+The W7S mounted URL remains available at:
 
 ```text
 https://omattic.w7s.cloud/tripolarisbarcelona/
@@ -27,4 +33,4 @@ The repo includes:
 
 ## Known Gaps
 
-- No custom domain is configured yet. The current production surface is the `omattic.w7s.cloud` path.
+- None currently tracked.

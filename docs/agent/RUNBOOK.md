@@ -62,10 +62,22 @@ gh run list --workflow "Deploy to W7S" --limit 5
 Live URL:
 
 ```text
+https://tripolarisbarcelona.com/
+```
+
+W7S mounted URL:
+
+```text
 https://omattic.w7s.cloud/tripolarisbarcelona/
 ```
 
 Live metadata:
+
+```text
+https://tripolarisbarcelona.com/health.json
+```
+
+Mounted metadata:
 
 ```text
 https://omattic.w7s.cloud/tripolarisbarcelona/health.json
