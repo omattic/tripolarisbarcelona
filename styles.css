@@ -78,6 +78,10 @@ a {
   text-decoration: none;
 }
 
+.main-nav a {
+  white-space: nowrap;
+}
+
 .main-nav a:hover,
 .social-links a:hover,
 .contact-details > a:hover {
@@ -670,19 +674,19 @@ footer {
   .main-nav {
     justify-content: space-between;
     gap: 0.8rem;
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
+    font-size: 0.86rem;
+    letter-spacing: 0.1em;
     line-height: 1.25;
   }
 
   .language-switcher {
-    grid-template-columns: repeat(3, 2.2rem);
+    grid-template-columns: repeat(3, 2.35rem);
     justify-self: end;
   }
 
   .language-switcher button {
-    height: 1.75rem;
-    font-size: 0.72rem;
+    height: 1.85rem;
+    font-size: 0.78rem;
   }
 
   .hero {
@@ -691,29 +695,29 @@ footer {
   }
 
   h1 {
-    font-size: clamp(3.55rem, 15vw, 4.9rem);
+    font-size: clamp(3.85rem, 16vw, 5.15rem);
     line-height: 0.9;
   }
 
   h2 {
-    font-size: clamp(2.35rem, 11vw, 3.15rem);
+    font-size: clamp(2.55rem, 11.5vw, 3.35rem);
     line-height: 1.03;
   }
 
   h3 {
-    font-size: 1.24rem;
+    font-size: 1.32rem;
   }
 
   .eyebrow {
     max-width: 100%;
-    font-size: 0.82rem;
-    letter-spacing: 0.26em;
+    font-size: 0.88rem;
+    letter-spacing: 0.22em;
     line-height: 1.35;
   }
 
   .hero-copy p:not(.eyebrow) {
     max-width: 100%;
-    font-size: 1.18rem;
+    font-size: 1.28rem;
     line-height: 1.45;
   }
 
@@ -721,20 +725,20 @@ footer {
   .contact-details,
   .hours,
   .menu-links {
-    font-size: 1.14rem;
+    font-size: 1.22rem;
     line-height: 1.68;
   }
 
   .feature-list p {
-    font-size: 1.12rem;
+    font-size: 1.2rem;
     line-height: 1.55;
   }
 
   .button {
     width: min(100%, 14.4rem);
-    min-height: 3.5rem;
+    min-height: 3.65rem;
     padding-inline: 1rem;
-    font-size: 0.86rem;
+    font-size: 0.92rem;
   }
 
   .quick-actions,
@@ -744,13 +748,13 @@ footer {
 
   .quick-actions .button.secondary,
   .social-links a {
-    min-height: 3.65rem;
+    min-height: 3.8rem;
     height: auto;
-    font-size: 0.94rem;
+    font-size: 1rem;
   }
 
   footer {
-    font-size: 0.9rem;
+    font-size: 0.96rem;
     line-height: 1.5;
   }
 }
