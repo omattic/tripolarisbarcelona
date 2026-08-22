@@ -24,6 +24,7 @@ The repo includes:
 - Three square bar photos under `assets/` for the "Un bar con tres almas" feature cards.
 - Local ES, CA, and EN carta PDFs under `assets/`, opened from the digital menu section in a full-screen in-page PDF.js viewer with loading feedback.
 - A stylized dark-purple and gold landing hero inspired by the Tripolaris visual reference, with centered branding and a minimal CTA.
+- Google Fonts typography uses Cinzel for headings, Cormorant Garamond for body and italic accents, and Josefin Sans for navigation, buttons, and labels.
 - ES, CA, and EN language switch controls.
 - Contact, hours, phone, WhatsApp, social, and map links from the public page.
 
