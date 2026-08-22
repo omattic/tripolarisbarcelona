@@ -8,6 +8,7 @@ It is deployed to W7S with a custom domain at:
 
 ```text
 https://tripolarisbarcelona.com/
+https://www.tripolarisbarcelona.com/
 ```
 
 The W7S mounted URL remains available at:

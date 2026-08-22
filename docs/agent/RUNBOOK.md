@@ -63,6 +63,7 @@ Live URL:
 
 ```text
 https://tripolarisbarcelona.com/
+https://www.tripolarisbarcelona.com/
 ```
 
 W7S mounted URL:
@@ -75,6 +76,7 @@ Live metadata:
 
 ```text
 https://tripolarisbarcelona.com/health.json
+https://www.tripolarisbarcelona.com/health.json
 ```
 
 Mounted metadata:

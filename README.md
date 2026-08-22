@@ -24,6 +24,7 @@ Production URL:
 
 ```text
 https://tripolarisbarcelona.com/
+https://www.tripolarisbarcelona.com/
 ```
 
 W7S mounted URL:
@@ -36,6 +37,7 @@ The deploy artifact includes:
 
 ```text
 https://tripolarisbarcelona.com/health.json
+https://www.tripolarisbarcelona.com/health.json
 ```
 
 That file exposes `branch`, `commitHash`, and `deployedAt` for live verification.
@@ -53,7 +55,7 @@ gh workflow run "Deploy to W7S"
 - `script.js`: ES, CA, and EN language switcher
 - `pdf-viewer.mjs`: full-screen PDF.js carta reader
 - `assets/`: public logo, triangle art, favicon, and carta PDFs copied from the source site
-- `CNAME`: W7S custom-domain mapping for `tripolarisbarcelona.com`
+- `CNAME`: W7S custom-domain mappings for `tripolarisbarcelona.com` and `www.tripolarisbarcelona.com`
 - `.github/workflows/deploy.yml`: W7S deployment workflow
 
 The raw scrape is kept in `.scrape/` locally and ignored by git.
