@@ -20,6 +20,7 @@ The repo includes:
 
 - Static HTML, CSS, and JavaScript.
 - Public logo, triangle artwork, and favicon under `assets/`.
+- Three square bar photos under `assets/` for the "Un bar con tres almas" feature cards.
 - Local ES, CA, and EN carta PDFs under `assets/`, opened from the digital menu section in a full-screen in-page PDF.js viewer with loading feedback.
 - A stylized dark-purple and gold landing hero inspired by the Tripolaris visual reference, with centered branding and a minimal CTA.
 - ES, CA, and EN language switch controls.
