@@ -504,17 +504,21 @@ address {
   margin-top: 1.25rem;
 }
 
+.quick-actions,
 .social-links {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 1.5rem;
 }
 
+.quick-actions .button.secondary,
 .social-links a {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 3.4rem;
+  width: 100%;
+  height: 3.4rem;
+  margin-top: 0;
   padding: 0.85rem 1rem;
   border: 1px solid var(--accent);
   border-radius: 8px;
@@ -528,6 +532,7 @@ address {
   text-transform: uppercase;
 }
 
+.quick-actions .button.secondary:hover,
 .social-links a:hover {
   background: var(--accent);
   color: var(--bg-deep);
@@ -672,6 +677,7 @@ footer {
     padding-inline: 1rem;
   }
 
+  .quick-actions,
   .social-links {
     grid-template-columns: 1fr;
   }
