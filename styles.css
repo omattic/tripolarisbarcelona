@@ -487,6 +487,10 @@ body.pdf-open {
   box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.32);
 }
 
+.pdf-page.is-pending {
+  width: min(100%, 1100px);
+}
+
 .pdf-page canvas {
   display: block;
   max-width: 100%;

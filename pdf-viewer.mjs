@@ -1,7 +1,3 @@
-import * as pdfjsLib from "./assets/pdfjs/pdf.mjs";
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = "./assets/pdfjs/pdf.worker.mjs";
-
 const viewer = document.querySelector("#menu-pdf-viewer");
 const pages = document.querySelector("#menu-pdf-pages");
 const title = document.querySelector("#menu-pdf-title");
@@ -10,9 +6,49 @@ const loadingText = document.querySelector("[data-pdf-loading-text]");
 const openLink = document.querySelector(".pdf-open-link");
 const closeButton = document.querySelector("[data-pdf-close]");
 const pdfLinks = document.querySelectorAll("[data-pdf-link]");
+const pdfStage = document.querySelector(".pdf-stage");
 
 let activeLink = null;
 let renderToken = 0;
+let pdfjsLibPromise = null;
+let activeObserver = null;
+let activePdf = null;
+
+const installPdfPolyfills = () => {
+  if (typeof Promise.withResolvers !== "function") {
+    Promise.withResolvers = () => {
+      let resolve;
+      let reject;
+      const promise = new Promise((promiseResolve, promiseReject) => {
+        resolve = promiseResolve;
+        reject = promiseReject;
+      });
+      return { promise, resolve, reject };
+    };
+  }
+
+  if (typeof Promise.try !== "function") {
+    Promise.try = (callback, ...args) => {
+      try {
+        return Promise.resolve(callback(...args));
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    };
+  }
+};
+
+const loadPdfJs = async () => {
+  installPdfPolyfills();
+  pdfjsLibPromise ||= import("./assets/pdfjs/pdf.mjs").then((module) => {
+    return import("./assets/pdfjs/pdf.worker.mjs").then((workerModule) => {
+      globalThis.pdfjsWorker = workerModule;
+      module.GlobalWorkerOptions.workerSrc = "./assets/pdfjs/pdf.worker.mjs";
+      return module;
+    });
+  });
+  return pdfjsLibPromise;
+};
 
 const dictionary = () => {
   const language = document.documentElement.lang;
@@ -51,24 +87,48 @@ const hideLoading = () => {
 
 const closeViewer = () => {
   renderToken += 1;
+  activeObserver?.disconnect();
+  activeObserver = null;
+  activePdf?.destroy?.();
+  activePdf = null;
   if (viewer) {
     viewer.hidden = true;
   }
   document.body.classList.remove("pdf-open");
 };
 
-const renderPage = async (pdf, pageNumber, token) => {
+const canvasPixelRatio = () => {
+  const dpr = window.devicePixelRatio || 1;
+  return Math.min(dpr, window.innerWidth <= 700 ? 1.5 : 2);
+};
+
+const pageWidth = () => Math.max(280, Math.min((pages?.clientWidth || 0) - 32, 1100));
+
+const pageViewportForWidth = (page, width) => {
+  const baseViewport = page.getViewport({ scale: 1 });
+  const scale = width / baseViewport.width;
+  return page.getViewport({ scale });
+};
+
+const buildPageShell = (pageNumber, viewport) => {
+  const pageShell = document.createElement("article");
+  pageShell.className = "pdf-page is-pending";
+  pageShell.dataset.page = String(pageNumber);
+  pageShell.style.minHeight = `${Math.floor(viewport.height)}px`;
+  return pageShell;
+};
+
+const renderPage = async (pdf, pageNumber, token, pageShell) => {
+  if (!pageShell || pageShell.dataset.rendered === "true" || pageShell.dataset.rendering === "true") {
+    return;
+  }
+  pageShell.dataset.rendering = "true";
+
   const page = await pdf.getPage(pageNumber);
   if (token !== renderToken || !pages) return;
 
-  const baseViewport = page.getViewport({ scale: 1 });
-  const availableWidth = Math.max(280, Math.min(pages.clientWidth - 32, 1100));
-  const scale = availableWidth / baseViewport.width;
-  const viewport = page.getViewport({ scale });
-  const dpr = window.devicePixelRatio || 1;
-
-  const pageShell = document.createElement("article");
-  pageShell.className = "pdf-page";
+  const viewport = pageViewportForWidth(page, pageWidth());
+  const dpr = canvasPixelRatio();
 
   const canvas = document.createElement("canvas");
   canvas.width = Math.floor(viewport.width * dpr);
@@ -76,14 +136,71 @@ const renderPage = async (pdf, pageNumber, token) => {
   canvas.style.width = `${Math.floor(viewport.width)}px`;
   canvas.style.height = `${Math.floor(viewport.height)}px`;
 
-  pageShell.append(canvas);
-  pages.append(pageShell);
+  pageShell.replaceChildren(canvas);
+  pageShell.classList.remove("is-pending");
+  pageShell.style.minHeight = "";
 
   await page.render({
     canvasContext: canvas.getContext("2d"),
     viewport,
     transform: dpr === 1 ? null : [dpr, 0, 0, dpr, 0, 0]
   }).promise;
+
+  pageShell.dataset.rendered = "true";
+  pageShell.dataset.rendering = "false";
+};
+
+const setupLazyRendering = async (pdf, token) => {
+  const firstPage = await pdf.getPage(1);
+  if (token !== renderToken || !pages) return;
+
+  const firstViewport = pageViewportForWidth(firstPage, pageWidth());
+  const aspectRatio = firstViewport.height / firstViewport.width;
+  const shells = [];
+
+  for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+    const shell = buildPageShell(pageNumber, {
+      height: pageWidth() * aspectRatio
+    });
+    pages.append(shell);
+    shells.push(shell);
+  }
+
+  try {
+    await renderPage(pdf, 1, token, shells[0]);
+    if (token === renderToken) {
+      hideLoading();
+    }
+  } catch (error) {
+    console.error("Failed to render first PDF page", error);
+    throw error;
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    for (const shell of shells.slice(1)) {
+      if (token !== renderToken) return;
+      await renderPage(pdf, Number(shell.dataset.page), token, shell);
+    }
+    return;
+  }
+
+  activeObserver?.disconnect();
+  activeObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      activeObserver?.unobserve(entry.target);
+      renderPage(pdf, Number(entry.target.dataset.page), token, entry.target).catch((error) => {
+        console.error("Failed to render PDF page", error);
+      });
+    }
+  }, {
+    root: pdfStage || null,
+    rootMargin: "900px 0px"
+  });
+
+  for (const shell of shells.slice(1)) {
+    activeObserver.observe(shell);
+  }
 };
 
 const openViewer = async (link) => {
@@ -104,6 +221,7 @@ const openViewer = async (link) => {
   closeButton?.focus();
 
   try {
+    const pdfjsLib = await loadPdfJs();
     const response = await fetch(pdfUrl);
     if (!response.ok) {
       throw new Error(`PDF request failed with ${response.status}`);
@@ -112,17 +230,17 @@ const openViewer = async (link) => {
     const pdfBytes = await response.arrayBuffer();
     if (token !== renderToken) return;
 
-    const pdf = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+    activePdf?.destroy?.();
+    const pdf = await pdfjsLib.getDocument({
+      data: pdfBytes,
+      isOffscreenCanvasSupported: false
+    }).promise;
+    activePdf = pdf;
     if (token !== renderToken) return;
 
-    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
-      await renderPage(pdf, pageNumber, token);
-    }
-
-    if (token === renderToken) {
-      hideLoading();
-    }
-  } catch {
+    await setupLazyRendering(pdf, token);
+  } catch (error) {
+    console.error("Failed to load PDF", error);
     if (token === renderToken) {
       setError(dictionary().pdfError || "Could not load the menu");
     }
