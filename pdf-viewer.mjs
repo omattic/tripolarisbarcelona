@@ -13,6 +13,7 @@ let renderToken = 0;
 let pdfjsLibPromise = null;
 let activeObserver = null;
 let activePdf = null;
+let activePdfBlobUrl = null;
 
 const installPdfPolyfills = () => {
   if (typeof Promise.withResolvers !== "function") {
@@ -85,16 +86,59 @@ const hideLoading = () => {
   loader?.classList.remove("is-visible", "is-error");
 };
 
+const revokePdfBlobUrl = () => {
+  if (activePdfBlobUrl) {
+    URL.revokeObjectURL(activePdfBlobUrl);
+    activePdfBlobUrl = null;
+  }
+};
+
 const closeViewer = () => {
   renderToken += 1;
   activeObserver?.disconnect();
   activeObserver = null;
   activePdf?.destroy?.();
   activePdf = null;
+  revokePdfBlobUrl();
   if (viewer) {
     viewer.hidden = true;
   }
   document.body.classList.remove("pdf-open");
+};
+
+const shouldUseNativePdfFallback = () => /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+const showPdfFallback = (pdfBytes, pdfUrl, token) => {
+  if (token !== renderToken || !pages) return;
+
+  activeObserver?.disconnect();
+  activeObserver = null;
+  activePdf?.destroy?.();
+  activePdf = null;
+  revokePdfBlobUrl();
+
+  activePdfBlobUrl = URL.createObjectURL(new Blob([pdfBytes], { type: "application/pdf" }));
+
+  const pageShell = document.createElement("article");
+  pageShell.className = "pdf-page pdf-fallback-page";
+
+  const frame = document.createElement("iframe");
+  frame.className = "pdf-fallback-frame";
+  frame.src = activePdfBlobUrl;
+  frame.title = pdfUrl.split("/").pop() || "Tripolaris carta PDF";
+  frame.addEventListener("load", () => {
+    if (token === renderToken) {
+      hideLoading();
+    }
+  }, { once: true });
+
+  pageShell.append(frame);
+  pages.replaceChildren(pageShell);
+  window.setTimeout(() => {
+    if (token === renderToken && pages.contains(frame)) {
+      hideLoading();
+    }
+  }, 1200);
 };
 
 const canvasPixelRatio = () => {
@@ -220,16 +264,22 @@ const openViewer = async (link) => {
   setLoading(dictionary().pdfLoading || "Loading menu...");
   closeButton?.focus();
 
+  let pdfBytes = null;
   try {
-    const pdfjsLib = await loadPdfJs();
     const response = await fetch(pdfUrl);
     if (!response.ok) {
       throw new Error(`PDF request failed with ${response.status}`);
     }
 
-    const pdfBytes = await response.arrayBuffer();
+    pdfBytes = await response.arrayBuffer();
     if (token !== renderToken) return;
 
+    if (shouldUseNativePdfFallback()) {
+      showPdfFallback(pdfBytes, pdfUrl, token);
+      return;
+    }
+
+    const pdfjsLib = await loadPdfJs();
     activePdf?.destroy?.();
     const pdf = await pdfjsLib.getDocument({
       data: pdfBytes,
@@ -242,7 +292,11 @@ const openViewer = async (link) => {
   } catch (error) {
     console.error("Failed to load PDF", error);
     if (token === renderToken) {
-      setError(dictionary().pdfError || "Could not load the menu");
+      if (pdfBytes) {
+        showPdfFallback(pdfBytes, pdfUrl, token);
+      } else {
+        setError(dictionary().pdfError || "Could not load the menu");
+      }
     }
   }
 };

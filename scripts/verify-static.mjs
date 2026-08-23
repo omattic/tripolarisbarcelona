@@ -49,7 +49,7 @@ for (const text of [
   "data-pdf-link",
   "data-pdf-loading-text",
   "script.js",
-  "pdf-viewer.mjs?v=20260823-1"
+  "pdf-viewer.mjs?v=20260823-2"
 ]) {
   if (!html.includes(text)) {
     throw new Error(`index.html is missing ${text}`);
@@ -77,7 +77,7 @@ for (const lang of ["es", "ca", "en"]) {
 }
 
 const pdfViewer = readFileSync(join(root, "pdf-viewer.mjs"), "utf8");
-for (const text of ["pdfLoading", "pdfError", "loadPdfJs", "Promise.withResolvers", "Promise.try", "pdfjsWorker", "IntersectionObserver", "isOffscreenCanvasSupported: false", "data-pdf-link", "renderPage", "setAttribute(\"download\""]) {
+for (const text of ["pdfLoading", "pdfError", "loadPdfJs", "Promise.withResolvers", "Promise.try", "pdfjsWorker", "shouldUseNativePdfFallback", "showPdfFallback", "application/pdf", "IntersectionObserver", "isOffscreenCanvasSupported: false", "data-pdf-link", "renderPage", "setAttribute(\"download\""]) {
   if (!pdfViewer.includes(text)) {
     throw new Error(`pdf-viewer.mjs is missing ${text}`);
   }
