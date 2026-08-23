@@ -622,30 +622,25 @@ footer {
     var(--bg);
 }
 
-.qr-brand {
-  position: fixed;
-  top: 1.25rem;
-  left: clamp(1.25rem, 5vw, 3.5rem);
-  z-index: 1;
-}
-
-.qr-brand img {
-  display: block;
-  width: min(12rem, 44vw);
-  height: auto;
-}
-
 .qr-panel {
   display: grid;
   justify-items: center;
   width: min(100%, 34rem);
-  padding-top: 5rem;
   text-align: center;
 }
 
-.qr-panel h1 {
-  margin-bottom: 1rem;
-  font-size: clamp(3.5rem, 13vw, 6.8rem);
+.qr-logo-title {
+  margin-bottom: 1.15rem;
+}
+
+.qr-logo-title a,
+.qr-logo-title img {
+  display: block;
+}
+
+.qr-logo-title img {
+  width: min(24rem, 78vw);
+  height: auto;
 }
 
 .qr-panel p:not(.eyebrow) {

@@ -60,7 +60,8 @@ const qrHtml = readFileSync(join(root, "qr/index.html"), "utf8");
 for (const text of [
   "https://tripolarisbarcelona.com",
   "../assets/qr/tripolaris-home.svg",
-  "../styles.css?v=20260823-1",
+  "../assets/tripolaris-logo.png",
+  "../styles.css?v=20260823-2",
   "QR para abrir https://tripolarisbarcelona.com"
 ]) {
   if (!qrHtml.includes(text)) {
