@@ -36,12 +36,12 @@ for (const text of [
   "assets/about-mixologia.jpg",
   "assets/about-musica.jpg",
   "assets/about-cultura.jpg",
-  "assets/carta-pages/es/page-01.jpg",
-  "assets/carta-pages/ca/page-01.jpg",
-  "assets/carta-pages/en/page-01.jpg",
-  "data-page-pattern=\"assets/carta-pages/es/page-{page}.jpg\"",
-  "data-page-pattern=\"assets/carta-pages/ca/page-{page}.jpg\"",
-  "data-page-pattern=\"assets/carta-pages/en/page-{page}.jpg\"",
+  "assets/carta-pages/es/page-01.jpg?v=20260823-5",
+  "assets/carta-pages/ca/page-01.jpg?v=20260823-5",
+  "assets/carta-pages/en/page-01.jpg?v=20260823-5",
+  "data-page-pattern=\"assets/carta-pages/es/page-{page}.jpg?v=20260823-5\"",
+  "data-page-pattern=\"assets/carta-pages/ca/page-{page}.jpg?v=20260823-5\"",
+  "data-page-pattern=\"assets/carta-pages/en/page-{page}.jpg?v=20260823-5\"",
   "data-page-count=\"27\"",
   "id=\"menu-pdf-viewer\"",
   "id=\"menu-pdf-pages\"",
@@ -116,8 +116,8 @@ for (const language of ["es", "ca", "en"]) {
   }
   for (const pageFile of pageFiles) {
     const size = jpegSize(join(languagePath, pageFile));
-    if (size.width !== 873 || size.height !== 1239) {
-      throw new Error(`assets/carta-pages/${language}/${pageFile} should be 873x1239, found ${size.width}x${size.height}`);
+    if (size.width !== 870 || size.height !== 1238) {
+      throw new Error(`assets/carta-pages/${language}/${pageFile} should be 870x1238, found ${size.width}x${size.height}`);
     }
   }
 }
