@@ -3,7 +3,6 @@ const pages = document.querySelector("#menu-pdf-pages");
 const title = document.querySelector("#menu-pdf-title");
 const loader = document.querySelector(".pdf-loader");
 const loadingText = document.querySelector("[data-pdf-loading-text]");
-const openLink = document.querySelector(".pdf-open-link");
 const closeButton = document.querySelector("[data-pdf-close]");
 const menuLinks = document.querySelectorAll("[data-pdf-link]");
 
@@ -83,10 +82,9 @@ const buildPageImage = (pattern, number, token, onFirstPageLoaded) => {
 };
 
 const openViewer = (link) => {
-  const pdfUrl = link.getAttribute("href");
   const pattern = link.dataset.pagePattern;
   const pageCount = Number(link.dataset.pageCount || 0);
-  if (!pdfUrl || !pattern || !pageCount || !viewer || !pages || !openLink) return;
+  if (!pattern || !pageCount || !viewer || !pages) return;
 
   const token = ++renderToken;
   let firstPageLoaded = false;
@@ -104,8 +102,6 @@ const openViewer = (link) => {
   viewer.hidden = false;
   document.body.classList.add("pdf-open");
   pages.replaceChildren();
-  openLink.setAttribute("href", pdfUrl);
-  openLink.setAttribute("download", pdfUrl.split("/").pop() || "tripolaris-carta.pdf");
   setLoading(dictionary().pdfLoading || "Loading menu...");
   closeButton?.focus();
 

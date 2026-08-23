@@ -15,9 +15,6 @@ const requiredFiles = [
   "assets/about-musica.jpg",
   "assets/about-cultura.jpg",
   "assets/qr/tripolaris-home.svg",
-  "assets/carta-ca.pdf",
-  "assets/carta-es.pdf",
-  "assets/carta-en.pdf",
   "assets/carta-pages/es/page-01.jpg",
   "assets/carta-pages/ca/page-01.jpg",
   "assets/carta-pages/en/page-01.jpg"
@@ -39,9 +36,9 @@ for (const text of [
   "assets/about-mixologia.jpg",
   "assets/about-musica.jpg",
   "assets/about-cultura.jpg",
-  "assets/carta-ca.pdf",
-  "assets/carta-es.pdf",
-  "assets/carta-en.pdf",
+  "assets/carta-pages/es/page-01.jpg",
+  "assets/carta-pages/ca/page-01.jpg",
+  "assets/carta-pages/en/page-01.jpg",
   "data-page-pattern=\"assets/carta-pages/es/page-{page}.jpg\"",
   "data-page-pattern=\"assets/carta-pages/ca/page-{page}.jpg\"",
   "data-page-pattern=\"assets/carta-pages/en/page-{page}.jpg\"",
@@ -49,8 +46,6 @@ for (const text of [
   "id=\"menu-pdf-viewer\"",
   "id=\"menu-pdf-pages\"",
   "aria-label=\"Carta PDF\"",
-  "aria-label=\"Descargar carta\"",
-  "download=\"carta-es.pdf\"",
   "data-pdf-link",
   "data-pdf-loading-text",
   "script.js",
@@ -82,7 +77,7 @@ for (const lang of ["es", "ca", "en"]) {
 }
 
 const pdfViewer = readFileSync(join(root, "pdf-viewer.mjs"), "utf8");
-for (const text of ["pdfLoading", "pdfError", "pagePattern", "menu-page-image", "pageNumber", "data-pdf-link", "setAttribute(\"download\""]) {
+for (const text of ["pdfLoading", "pdfError", "pagePattern", "menu-page-image", "pageNumber", "data-pdf-link"]) {
   if (!pdfViewer.includes(text)) {
     throw new Error(`pdf-viewer.mjs is missing ${text}`);
   }

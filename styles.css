@@ -725,7 +725,7 @@ footer {
 
   .pdf-toolbar-actions {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 }
 
