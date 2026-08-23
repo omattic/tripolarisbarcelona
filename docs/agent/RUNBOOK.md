@@ -79,6 +79,12 @@ https://tripolarisbarcelona.com/health.json
 https://www.tripolarisbarcelona.com/health.json
 ```
 
+The public QR page is available at:
+
+```text
+https://tripolarisbarcelona.com/qr
+```
+
 Mounted metadata:
 
 ```text

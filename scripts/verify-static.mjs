@@ -4,6 +4,7 @@ import { join } from "node:path";
 const root = new URL("..", import.meta.url).pathname;
 const requiredFiles = [
   "index.html",
+  "qr/index.html",
   "styles.css",
   "script.js",
   "pdf-viewer.mjs",
@@ -13,6 +14,7 @@ const requiredFiles = [
   "assets/about-mixologia.jpg",
   "assets/about-musica.jpg",
   "assets/about-cultura.jpg",
+  "assets/qr/tripolaris-home.svg",
   "assets/carta-ca.pdf",
   "assets/carta-es.pdf",
   "assets/carta-en.pdf",
@@ -51,6 +53,18 @@ for (const text of [
 ]) {
   if (!html.includes(text)) {
     throw new Error(`index.html is missing ${text}`);
+  }
+}
+
+const qrHtml = readFileSync(join(root, "qr/index.html"), "utf8");
+for (const text of [
+  "https://tripolarisbarcelona.com",
+  "../assets/qr/tripolaris-home.svg",
+  "../styles.css?v=20260823-1",
+  "QR para abrir https://tripolarisbarcelona.com"
+]) {
+  if (!qrHtml.includes(text)) {
+    throw new Error(`qr/index.html is missing ${text}`);
   }
 }
 

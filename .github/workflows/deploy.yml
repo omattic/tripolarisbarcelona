@@ -41,6 +41,7 @@ jobs:
           rm -rf .w7s-deploy
           mkdir -p .w7s-deploy/dist
           cp index.html styles.css script.js pdf-viewer.mjs README.md .w7s-deploy/dist/
+          cp -R qr .w7s-deploy/dist/
           cp -R assets docs .w7s-deploy/dist/
           cp CNAME .w7s-deploy/CNAME
           node - <<'NODE'
@@ -62,10 +63,13 @@ jobs:
         run: |
           set -euo pipefail
           curl --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/" | grep -i "Tripolaris"
+          curl --location --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/qr" | grep "assets/qr/tripolaris-home.svg"
           curl --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/health.json" | tee health.json
           curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://tripolarisbarcelona.com/" | grep -i "Tripolaris"
+          curl --location --retry 12 --retry-delay 10 --fail --show-error --silent "https://tripolarisbarcelona.com/qr" | grep "assets/qr/tripolaris-home.svg"
           curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://tripolarisbarcelona.com/health.json" | tee custom-health.json
           curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://www.tripolarisbarcelona.com/" | grep -i "Tripolaris"
+          curl --location --retry 12 --retry-delay 10 --fail --show-error --silent "https://www.tripolarisbarcelona.com/qr" | grep "assets/qr/tripolaris-home.svg"
           curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://www.tripolarisbarcelona.com/health.json" | tee www-health.json
           node - <<'NODE'
           const fs = require("node:fs");
