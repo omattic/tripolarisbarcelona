@@ -90,10 +90,35 @@ for (const text of ["100dvh - 9rem", "100dvh - 10.3rem", "object-fit: contain"])
   }
 }
 
+const jpegSize = (path) => {
+  const data = readFileSync(path);
+  let offset = 2;
+  while (offset < data.length) {
+    if (data[offset] !== 0xff) break;
+    const marker = data[offset + 1];
+    const length = data.readUInt16BE(offset + 2);
+    if (marker >= 0xc0 && marker <= 0xc3) {
+      return {
+        width: data.readUInt16BE(offset + 7),
+        height: data.readUInt16BE(offset + 5)
+      };
+    }
+    offset += 2 + length;
+  }
+  throw new Error(`${path} has no readable JPEG dimensions`);
+};
+
 for (const language of ["es", "ca", "en"]) {
-  const pageFiles = readdirSync(join(root, "assets/carta-pages", language)).filter((file) => file.endsWith(".jpg"));
+  const languagePath = join(root, "assets/carta-pages", language);
+  const pageFiles = readdirSync(languagePath).filter((file) => file.endsWith(".jpg"));
   if (pageFiles.length !== 27) {
     throw new Error(`assets/carta-pages/${language} should contain 27 JPG pages, found ${pageFiles.length}`);
+  }
+  for (const pageFile of pageFiles) {
+    const size = jpegSize(join(languagePath, pageFile));
+    if (size.width !== 873 || size.height !== 1239) {
+      throw new Error(`assets/carta-pages/${language}/${pageFile} should be 873x1239, found ${size.width}x${size.height}`);
+    }
   }
 }
 
