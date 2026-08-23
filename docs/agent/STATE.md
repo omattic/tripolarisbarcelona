@@ -22,8 +22,8 @@ The repo includes:
 - Static HTML, CSS, and JavaScript.
 - Public logo, triangle artwork, and favicon under `assets/`.
 - Three square bar photos under `assets/` for the "Un bar con tres almas" feature cards.
-- Local ES, CA, and EN carta PDFs under `assets/`, opened from the digital menu section in a full-screen in-page PDF.js viewer with loading feedback.
-- The menu viewer uses an in-page native PDF iframe fallback on iOS WebKit, and otherwise loads PDF.js after mobile Safari Promise polyfills, disables offscreen canvas use, caps canvas density, and lazily renders pages to avoid iPhone memory failures.
+- Local ES, CA, and EN carta PDFs under `assets/`, kept for the download icon.
+- Extracted JPG carta pages live under `assets/carta-pages/{es,ca,en}/` and are shown by the full-screen in-page menu viewer to avoid browser PDF rendering issues.
 - A stylized dark-purple and gold landing hero inspired by the Tripolaris visual reference, with centered branding and a minimal CTA.
 - Google Fonts typography uses Marcellus for headings, Cormorant Garamond for body and italic accents, and Josefin Sans for navigation, buttons, and labels.
 - Mobile typography is intentionally larger than the desktop-derived defaults for readability on small screens.

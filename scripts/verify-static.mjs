@@ -1,4 +1,4 @@
-import { readFileSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const root = new URL("..", import.meta.url).pathname;
@@ -18,8 +18,9 @@ const requiredFiles = [
   "assets/carta-ca.pdf",
   "assets/carta-es.pdf",
   "assets/carta-en.pdf",
-  "assets/pdfjs/pdf.mjs",
-  "assets/pdfjs/pdf.worker.mjs"
+  "assets/carta-pages/es/page-01.jpg",
+  "assets/carta-pages/ca/page-01.jpg",
+  "assets/carta-pages/en/page-01.jpg"
 ];
 
 for (const file of requiredFiles) {
@@ -41,6 +42,10 @@ for (const text of [
   "assets/carta-ca.pdf",
   "assets/carta-es.pdf",
   "assets/carta-en.pdf",
+  "data-page-pattern=\"assets/carta-pages/es/page-{page}.jpg\"",
+  "data-page-pattern=\"assets/carta-pages/ca/page-{page}.jpg\"",
+  "data-page-pattern=\"assets/carta-pages/en/page-{page}.jpg\"",
+  "data-page-count=\"27\"",
   "id=\"menu-pdf-viewer\"",
   "id=\"menu-pdf-pages\"",
   "aria-label=\"Carta PDF\"",
@@ -49,7 +54,7 @@ for (const text of [
   "data-pdf-link",
   "data-pdf-loading-text",
   "script.js",
-  "pdf-viewer.mjs?v=20260823-2"
+  "pdf-viewer.mjs?v=20260823-3"
 ]) {
   if (!html.includes(text)) {
     throw new Error(`index.html is missing ${text}`);
@@ -77,9 +82,16 @@ for (const lang of ["es", "ca", "en"]) {
 }
 
 const pdfViewer = readFileSync(join(root, "pdf-viewer.mjs"), "utf8");
-for (const text of ["pdfLoading", "pdfError", "loadPdfJs", "Promise.withResolvers", "Promise.try", "pdfjsWorker", "shouldUseNativePdfFallback", "showPdfFallback", "application/pdf", "IntersectionObserver", "isOffscreenCanvasSupported: false", "data-pdf-link", "renderPage", "setAttribute(\"download\""]) {
+for (const text of ["pdfLoading", "pdfError", "pagePattern", "menu-page-image", "pageNumber", "data-pdf-link", "setAttribute(\"download\""]) {
   if (!pdfViewer.includes(text)) {
     throw new Error(`pdf-viewer.mjs is missing ${text}`);
+  }
+}
+
+for (const language of ["es", "ca", "en"]) {
+  const pageFiles = readdirSync(join(root, "assets/carta-pages", language)).filter((file) => file.endsWith(".jpg"));
+  if (pageFiles.length !== 27) {
+    throw new Error(`assets/carta-pages/${language} should contain 27 JPG pages, found ${pageFiles.length}`);
   }
 }
 
