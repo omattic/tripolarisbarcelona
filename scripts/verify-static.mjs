@@ -83,6 +83,13 @@ for (const text of ["pdfLoading", "pdfError", "pagePattern", "menu-page-image", 
   }
 }
 
+const styles = readFileSync(join(root, "styles.css"), "utf8");
+for (const text of ["100dvh - 9rem", "100dvh - 10.3rem", "object-fit: contain"]) {
+  if (!styles.includes(text)) {
+    throw new Error(`styles.css is missing fitted menu image rule ${text}`);
+  }
+}
+
 for (const language of ["es", "ca", "en"]) {
   const pageFiles = readdirSync(join(root, "assets/carta-pages", language)).filter((file) => file.endsWith(".jpg"));
   if (pageFiles.length !== 27) {

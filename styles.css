@@ -487,11 +487,23 @@ body.pdf-open {
   box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.32);
 }
 
+.menu-image-page {
+  max-height: calc(100dvh - 9rem);
+  display: grid;
+  place-items: center;
+}
+
 .pdf-page canvas,
 .menu-page-image {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+.menu-page-image {
+  width: auto;
+  max-height: calc(100dvh - 10.3rem);
+  object-fit: contain;
 }
 
 .pdf-loader {
