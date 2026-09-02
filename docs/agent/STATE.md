@@ -28,6 +28,7 @@ The repo includes:
 - Google Fonts typography uses Marcellus for headings, Cormorant Garamond for body and italic accents, and Josefin Sans for navigation, buttons, and labels.
 - Mobile typography is intentionally larger than the desktop-derived defaults for readability on small screens.
 - The homepage head includes SEO metadata, canonical URL, Open Graph/Twitter preview tags, local geo metadata, and Schema.org JSON-LD for Tripolaris.
+- The about section explains the Tripolaris name and avoids publishing founder names in visible copy or JSON-LD metadata.
 - `/qr` is a static QR display page with a scannable SVG QR code for `https://tripolarisbarcelona.com`.
 - ES, CA, and EN language switch controls.
 - Contact, hours, phone, WhatsApp, social, and map links from the public page.

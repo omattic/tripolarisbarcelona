@@ -54,7 +54,7 @@ for (const text of [
   "aria-label=\"Carta PDF\"",
   "data-pdf-link",
   "data-pdf-loading-text",
-  "script.js?v=20260902-1",
+  "script.js?v=20260902-2",
   "pdf-viewer.mjs?v=20260823-3"
 ]) {
   if (!html.includes(text)) {
@@ -84,6 +84,12 @@ for (const lang of ["es", "ca", "en"]) {
 for (const text of ["Coctelería", "Cócteles", "Miércoles", "Sábado", "Català", "ànimes", "tècnica"]) {
   if (!script.includes(text)) {
     throw new Error(`script.js is missing accented text ${text}`);
+  }
+}
+
+for (const text of ["Nelio", "Angelo", "Cesar", "\"founder\""]) {
+  if (html.includes(text) || script.includes(text)) {
+    throw new Error(`Personal name or founder metadata should not be present: ${text}`);
   }
 }
 
