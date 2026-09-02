@@ -9,7 +9,7 @@ const translations = {
     aboutEyebrow: "Sobre Nosotros",
     aboutTitle: "Un bar con tres almas",
     aboutText:
-      "Tripolaris, porque somos 3 Amigos. La polaridad indica la distribución desigual de las cargas eléctricas, algo que representa nuestras personalidades. También puede referirse a la estrella del norte llamada Polaris, la estrella más brillante del hemisferio norte de la Tierra.",
+      "Tripolaris, porque representa a 3 amigos. La polaridad indica la distribución desigual de las cargas eléctricas, algo que representa nuestras personalidades. También puede referirse a la estrella del norte llamada Polaris, la estrella más brillante del hemisferio norte de la Tierra.",
     featureOneTitle: "Mixología",
     featureOneText: "Cócteles creativos preparados con técnica, color y personalidad.",
     featureTwoTitle: "Música en Vivo",
@@ -45,7 +45,7 @@ const translations = {
     aboutEyebrow: "Sobre Nosaltres",
     aboutTitle: "Un bar amb tres ànimes",
     aboutText:
-      "Tripolaris, perquè som 3 amics. La polaritat indica la distribució desigual de les càrregues elèctriques, una cosa que representa les nostres personalitats. També pot referir-se a l’estrella del nord anomenada Polaris, l’estrella més brillant de l’hemisferi nord de la Terra.",
+      "Tripolaris, perquè representa 3 amics. La polaritat indica la distribució desigual de les càrregues elèctriques, una cosa que representa les nostres personalitats. També pot referir-se a l’estrella del nord anomenada Polaris, l’estrella més brillant de l’hemisferi nord de la Terra.",
     featureOneTitle: "Mixologia",
     featureOneText: "Còctels creatius preparats amb tècnica, color i personalitat.",
     featureTwoTitle: "Música en Viu",
@@ -81,7 +81,7 @@ const translations = {
     aboutEyebrow: "About Us",
     aboutTitle: "A bar with three souls",
     aboutText:
-      "Tripolaris, because we are 3 friends. Polarity describes the uneven distribution of electric charges, something that represents our personalities. It can also refer to the northern star called Polaris, the brightest star in Earth's northern hemisphere.",
+      "Tripolaris, because it represents 3 friends. Polarity describes the uneven distribution of electric charges, something that represents our personalities. It can also refer to the northern star called Polaris, the brightest star in Earth's northern hemisphere.",
     featureOneTitle: "Mixology",
     featureOneText: "Creative cocktails prepared with technique, color, and personality.",
     featureTwoTitle: "Live Music",

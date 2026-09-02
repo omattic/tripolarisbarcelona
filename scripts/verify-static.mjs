@@ -54,7 +54,7 @@ for (const text of [
   "aria-label=\"Carta PDF\"",
   "data-pdf-link",
   "data-pdf-loading-text",
-  "script.js?v=20260902-2",
+  "script.js?v=20260902-3",
   "pdf-viewer.mjs?v=20260823-3"
 ]) {
   if (!html.includes(text)) {
