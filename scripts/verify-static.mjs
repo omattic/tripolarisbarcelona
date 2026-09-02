@@ -11,6 +11,7 @@ const requiredFiles = [
   "assets/favicon.svg",
   "assets/tripolaris-logo.png",
   "assets/tripolaris-triangle.png",
+  "assets/og-tripolaris.jpg",
   "assets/about-mixologia.jpg",
   "assets/about-musica.jpg",
   "assets/about-cultura.jpg",
@@ -31,6 +32,11 @@ for (const file of requiredFiles) {
 const html = readFileSync(join(root, "index.html"), "utf8");
 for (const text of [
   "Tripolaris",
+  "Tripolaris | Coctelería de Autor y Música en Vivo en Les Corts, Barcelona",
+  "Tripolaris: coctelería de autor, música en vivo y cultura local en Les Corts, Barcelona.",
+  "https://tripolarisbarcelona.com/assets/og-tripolaris.jpg",
+  "\"@type\": [\"BarOrPub\", \"NightClub\"]",
+  "\"hasMap\": \"https://maps.app.goo.gl/88XmYTNnZpaWmCdq7\"",
   "assets/tripolaris-logo.png",
   "assets/tripolaris-triangle.png",
   "assets/about-mixologia.jpg",
@@ -48,7 +54,7 @@ for (const text of [
   "aria-label=\"Carta PDF\"",
   "data-pdf-link",
   "data-pdf-loading-text",
-  "script.js",
+  "script.js?v=20260902-1",
   "pdf-viewer.mjs?v=20260823-3"
 ]) {
   if (!html.includes(text)) {
@@ -73,6 +79,11 @@ const script = readFileSync(join(root, "script.js"), "utf8");
 for (const lang of ["es", "ca", "en"]) {
   if (!script.includes(`${lang}: {`)) {
     throw new Error(`script.js is missing ${lang} translations`);
+  }
+}
+for (const text of ["Coctelería", "Cócteles", "Miércoles", "Sábado", "Català", "ànimes", "tècnica"]) {
+  if (!script.includes(text)) {
+    throw new Error(`script.js is missing accented text ${text}`);
   }
 }
 
@@ -107,6 +118,11 @@ const jpegSize = (path) => {
   }
   throw new Error(`${path} has no readable JPEG dimensions`);
 };
+
+const ogSize = jpegSize(join(root, "assets/og-tripolaris.jpg"));
+if (ogSize.width !== 1200 || ogSize.height !== 630) {
+  throw new Error(`assets/og-tripolaris.jpg should be 1200x630, found ${ogSize.width}x${ogSize.height}`);
+}
 
 for (const language of ["es", "ca", "en"]) {
   const languagePath = join(root, "assets/carta-pages", language);
