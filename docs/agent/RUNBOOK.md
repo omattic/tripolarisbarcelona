@@ -90,3 +90,56 @@ Mounted metadata:
 ```text
 https://omattic.w7s.cloud/tripolarisbarcelona/health.json
 ```
+
+## Custom Domain Recovery
+
+Use the mounted route first to separate app health from custom-domain health:
+
+```bash
+curl -fsS https://omattic.w7s.cloud/tripolarisbarcelona/health.json
+curl -fsS -L https://omattic.w7s.cloud/tripolarisbarcelona/ -o /tmp/tripolaris-mounted.html
+```
+
+Check custom-domain TLS:
+
+```bash
+curl -I https://tripolarisbarcelona.com/
+curl -I https://www.tripolarisbarcelona.com/
+openssl s_client -connect tripolarisbarcelona.com:443 -servername tripolarisbarcelona.com -brief
+```
+
+Check DNS authority and W7S claim state:
+
+```bash
+curl -fsS 'https://cloudflare-dns.com/dns-query?name=tripolarisbarcelona.com&type=NS' -H 'accept: application/dns-json'
+curl -fsS 'https://cloudflare-dns.com/dns-query?name=_w7s.tripolarisbarcelona.com&type=TXT' -H 'accept: application/dns-json'
+curl -fsS 'https://cloudflare-dns.com/dns-query?name=www.tripolarisbarcelona.com&type=CNAME' -H 'accept: application/dns-json'
+```
+
+If `tripolarisbarcelona.com` and `www.tripolarisbarcelona.com` fail TLS while the mounted URL is healthy, fix the custom-domain attachment, not the static app. W7S attaches custom domains by finding a Cloudflare zone for the hostname and creating Worker routes. DNS must resolve to Cloudflare, and the zone must be visible to the W7S Cloudflare API token.
+
+Required DNS records:
+
+```text
+TXT   _w7s.tripolarisbarcelona.com  omattic/tripolarisbarcelona
+CNAME www.tripolarisbarcelona.com   w7s.cloud
+```
+
+For the apex domain, use the DNS provider's CNAME flattening, ALIAS, or ANAME support to point `tripolarisbarcelona.com` at `w7s.cloud`. If the provider only supports A/AAAA at the apex, keep the records aligned with W7S/Cloudflare guidance because raw IPs can drift.
+
+After DNS and W7S zone access are corrected, rerun and verify:
+
+```bash
+gh workflow run "Deploy to W7S" --ref main
+gh run list --workflow "Deploy to W7S" --limit 5
+gh run view <run-id> --log-failed
+curl -fsS https://tripolarisbarcelona.com/health.json
+curl -fsS https://www.tripolarisbarcelona.com/health.json
+```
+
+Known 2026-09-07 failure signature:
+
+```text
+W7S deploy: error (HTTP 500)
+Error: Unable to find a Cloudflare zone for custom domain tripolarisbarcelona.com.
+```

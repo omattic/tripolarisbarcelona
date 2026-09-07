@@ -41,4 +41,4 @@ The repo includes:
 
 ## Known Gaps
 
-- None currently tracked.
+- As of 2026-09-07, the W7S mounted URL is healthy, but `tripolarisbarcelona.com` and `www.tripolarisbarcelona.com` fail TLS before the app is reached. Public DNS authority is Hostinger DNS (`atlas.dns-parking.com`, `hyperion.dns-parking.com`), `_w7s.tripolarisbarcelona.com` TXT is absent, and a manual W7S redeploy failed with `Unable to find a Cloudflare zone for custom domain tripolarisbarcelona.com.` Custom-domain recovery requires restoring W7S/Cloudflare zone access for `tripolarisbarcelona.com`, or otherwise adding the domain to the W7S-managed Cloudflare account, then rerunning the W7S deploy. Add `TXT _w7s.tripolarisbarcelona.com = omattic/tripolarisbarcelona` once DNS is editable so future claims are explicit.
