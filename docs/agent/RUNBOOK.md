@@ -143,3 +143,12 @@ Known 2026-09-07 failure signature:
 W7S deploy: error (HTTP 500)
 Error: Unable to find a Cloudflare zone for custom domain tripolarisbarcelona.com.
 ```
+
+After W7S Core gained Cloudflare for SaaS custom-hostname fallback support, the failure signature changed to:
+
+```text
+W7S deploy: error (HTTP 500)
+Error: Unable to provision Cloudflare for SaaS custom hostname tripolarisbarcelona.com: Authentication error
+```
+
+That means the request reached the new SaaS provisioning path, but the live W7S Cloudflare token or SaaS zone entitlement still needs Custom Hostnames/SSL access.
