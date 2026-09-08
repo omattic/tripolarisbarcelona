@@ -38,6 +38,9 @@ The deploy artifact includes:
 ```text
 https://tripolarisbarcelona.com/health.json
 https://www.tripolarisbarcelona.com/health.json
+https://tripolarisbarcelona.com/carta/es/
+https://tripolarisbarcelona.com/carta/ca/
+https://tripolarisbarcelona.com/carta/en/
 ```
 
 That file exposes `branch`, `commitHash`, and `deployedAt` for live verification.
@@ -54,7 +57,8 @@ gh workflow run "Deploy to GitHub Pages"
 - `styles.css`: responsive visual styling
 - `script.js`: ES, CA, and EN language switcher
 - `pdf-viewer.mjs`: full-screen PDF.js carta reader
-- `assets/`: public logo, triangle art, favicon, Open Graph image, feature media, and extracted carta JPG pages
+- `carta/`: direct language-specific carta routes
+- `assets/`: public logo, triangle art, favicon, Open Graph image, feature media, extracted carta JPG pages, and downloadable carta PDFs
 - `CNAME`: GitHub Pages custom domain for `tripolarisbarcelona.com`
 - `.github/workflows/deploy.yml`: GitHub Pages deployment workflow
 

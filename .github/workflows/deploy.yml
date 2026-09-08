@@ -45,6 +45,7 @@ jobs:
           rm -rf .github-pages
           mkdir -p .github-pages
           cp index.html styles.css script.js pdf-viewer.mjs README.md CNAME .github-pages/
+          cp -R carta .github-pages/
           cp -R qr .github-pages/
           cp -R assets docs .github-pages/
           touch .github-pages/.nojekyll

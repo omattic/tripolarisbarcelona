@@ -85,6 +85,14 @@ The public QR page is available at:
 https://tripolarisbarcelona.com/qr
 ```
 
+The direct carta routes are available at:
+
+```text
+https://tripolarisbarcelona.com/carta/es/
+https://tripolarisbarcelona.com/carta/ca/
+https://tripolarisbarcelona.com/carta/en/
+```
+
 Fallback metadata:
 
 ```text

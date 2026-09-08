@@ -104,7 +104,7 @@
       href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Josefin+Sans:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260908-1" />
+    <link rel="stylesheet" href="styles.css?v=20260908-2" />
   </head>
   <body>
     <header class="site-header">
@@ -197,9 +197,9 @@
           <h2 id="menu-title" data-i18n="menuTitle">Carta digital</h2>
         </div>
         <div class="menu-links" aria-label="Digital menu links">
-          <a href="assets/carta-pages/es/page-01.jpg?v=20260823-5" data-pdf-link data-page-pattern="assets/carta-pages/es/page-{page}.jpg?v=20260823-5" data-page-count="27" data-i18n="menuSpanish">Español</a>
-          <a href="assets/carta-pages/ca/page-01.jpg?v=20260823-5" data-pdf-link data-page-pattern="assets/carta-pages/ca/page-{page}.jpg?v=20260823-5" data-page-count="27" data-i18n="menuCatalan">Català</a>
-          <a href="assets/carta-pages/en/page-01.jpg?v=20260823-5" data-pdf-link data-page-pattern="assets/carta-pages/en/page-{page}.jpg?v=20260823-5" data-page-count="27" data-i18n="menuEnglish">English</a>
+          <a href="carta/es/" data-pdf-link data-carta-language="es" data-page-pattern="assets/carta-pages/es/page-{page}.jpg?v=20260823-5" data-page-count="27" data-pdf-download="assets/carta-es.pdf" data-i18n="menuSpanish">Español</a>
+          <a href="carta/ca/" data-pdf-link data-carta-language="ca" data-page-pattern="assets/carta-pages/ca/page-{page}.jpg?v=20260823-5" data-page-count="27" data-pdf-download="assets/carta-ca.pdf" data-i18n="menuCatalan">Català</a>
+          <a href="carta/en/" data-pdf-link data-carta-language="en" data-page-pattern="assets/carta-pages/en/page-{page}.jpg?v=20260823-5" data-page-count="27" data-pdf-download="assets/carta-en.pdf" data-i18n="menuEnglish">English</a>
         </div>
       </section>
 
@@ -253,6 +253,13 @@
 
     <div class="pdf-overlay" id="menu-pdf-viewer" role="dialog" aria-modal="true" aria-label="Carta PDF" hidden>
       <div class="pdf-toolbar">
+        <a class="pdf-download-link" href="assets/carta-es.pdf" data-pdf-download-link aria-label="Descargar carta PDF" download>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v12"></path>
+            <path d="m7 10 5 5 5-5"></path>
+            <path d="M5 21h14"></path>
+          </svg>
+        </a>
         <div class="pdf-toolbar-actions">
           <button class="pdf-close-button" type="button" data-pdf-close aria-label="Cerrar carta">
             &times;
@@ -269,6 +276,6 @@
     </div>
 
     <script src="script.js?v=20260902-3"></script>
-    <script type="module" src="pdf-viewer.mjs?v=20260823-3"></script>
+    <script type="module" src="pdf-viewer.mjs?v=20260908-2"></script>
   </body>
 </html>

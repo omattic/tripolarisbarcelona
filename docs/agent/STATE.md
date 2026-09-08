@@ -23,7 +23,8 @@ The repo includes:
 - Public logo, triangle artwork, favicon, and 1200x630 Open Graph preview image under `assets/`.
 - Two square-cropped bar photos and one muted autoplaying MP4 under `assets/` for the "Un bar con tres almas" feature cards.
 - Extracted JPG carta pages live under `assets/carta-pages/{es,ca,en}/` and are shown by the full-screen in-page menu viewer to avoid browser PDF rendering issues. Each page is cropped to 870x1238, constrained to fit inside the viewer by default, and native browser pinch zoom remains available.
-- The original carta PDFs are not shipped in the deployment artifact, so the published static site stays small.
+- Direct carta routes live at `/carta/es/`, `/carta/ca/`, and `/carta/en/`.
+- The original carta PDFs are restored under `assets/` so the carta viewer can offer offline downloads.
 - A stylized dark-purple and gold landing hero inspired by the Tripolaris visual reference, with centered branding and a minimal CTA.
 - Google Fonts typography uses Marcellus for headings, Cormorant Garamond for body and italic accents, and Josefin Sans for navigation, buttons, and labels.
 - Mobile typography is intentionally larger than the desktop-derived defaults for readability on small screens.

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carta | Tripolaris Barcelona</title>
+    <link rel="canonical" href="https://tripolarisbarcelona.com/carta/es/" />
+    <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Josefin+Sans:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles.css?v=20260908-2" />
+  </head>
+  <body class="pdf-open">
+    <a
+      href="./"
+      data-pdf-link
+      data-pdf-auto-open
+      data-carta-language="es"
+      data-page-pattern="../../assets/carta-pages/es/page-{page}.jpg?v=20260823-5"
+      data-page-count="27"
+      data-pdf-download="../../assets/carta-es.pdf"
+      hidden
+    >Español</a>
+
+    <div class="pdf-overlay" id="menu-pdf-viewer" role="dialog" aria-modal="true" aria-label="Carta PDF" hidden>
+      <div class="pdf-toolbar">
+        <a class="pdf-download-link" href="../../assets/carta-es.pdf" data-pdf-download-link aria-label="Descargar carta PDF" download>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v12"></path>
+            <path d="m7 10 5 5 5-5"></path>
+            <path d="M5 21h14"></path>
+          </svg>
+        </a>
+        <div class="pdf-toolbar-actions">
+          <button class="pdf-close-button" type="button" data-pdf-close data-pdf-close-home="../../" aria-label="Cerrar carta">
+            &times;
+          </button>
+        </div>
+      </div>
+      <div class="pdf-stage">
+        <div class="pdf-loader is-visible" role="status">
+          <span class="spinner" aria-hidden="true"></span>
+          <span data-pdf-loading-text>Cargando carta...</span>
+        </div>
+        <div class="pdf-pages" id="menu-pdf-pages" aria-label="Carta PDF"></div>
+      </div>
+    </div>
+
+    <script type="module" src="../../pdf-viewer.mjs?v=20260908-2"></script>
+  </body>
+</html>

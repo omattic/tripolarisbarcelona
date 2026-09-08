@@ -4,6 +4,7 @@ const title = document.querySelector("#menu-pdf-title");
 const loader = document.querySelector(".pdf-loader");
 const loadingText = document.querySelector("[data-pdf-loading-text]");
 const closeButton = document.querySelector("[data-pdf-close]");
+const downloadLink = document.querySelector("[data-pdf-download-link]");
 const menuLinks = document.querySelectorAll("[data-pdf-link]");
 
 let activeLink = null;
@@ -46,6 +47,14 @@ const hideLoading = () => {
 
 const closeViewer = () => {
   renderToken += 1;
+  const closeHome = closeButton?.dataset.pdfCloseHome;
+  if (closeHome) {
+    window.location.href = closeHome;
+    return;
+  }
+  if (/\/carta\/(es|ca|en)\/?$/.test(window.location.pathname) && window.history?.pushState) {
+    window.history.pushState(null, "", new URL("../../", window.location.href).pathname);
+  }
   if (viewer) {
     viewer.hidden = true;
   }
@@ -55,6 +64,21 @@ const closeViewer = () => {
 const pageNumber = (value) => String(value).padStart(2, "0");
 
 const pageUrl = (pattern, number) => pattern.replace("{page}", pageNumber(number));
+
+const absoluteUrl = (value) => new URL(value, window.location.href).href;
+
+const setDownloadLink = (link) => {
+  if (!downloadLink) return;
+  const downloadUrl = link.dataset.pdfDownload;
+  if (!downloadUrl) {
+    downloadLink.hidden = true;
+    downloadLink.removeAttribute("href");
+    return;
+  }
+  downloadLink.hidden = false;
+  downloadLink.href = absoluteUrl(downloadUrl);
+  downloadLink.download = downloadUrl.split("/").pop() || "tripolaris-carta.pdf";
+};
 
 const buildPageImage = (pattern, number, token, onFirstPageLoaded) => {
   const pageShell = document.createElement("article");
@@ -75,7 +99,7 @@ const buildPageImage = (pattern, number, token, onFirstPageLoaded) => {
       setError(dictionary().pdfError || "Could not load the menu");
     }
   }, { once: true });
-  image.src = pageUrl(pattern, number);
+  image.src = absoluteUrl(pageUrl(pattern, number));
 
   pageShell.append(image);
   return pageShell;
@@ -98,6 +122,7 @@ const openViewer = (link) => {
   activeLink = link;
   menuLinks.forEach((item) => item.classList.toggle("active", item === link));
   setTitle();
+  setDownloadLink(link);
 
   viewer.hidden = false;
   document.body.classList.add("pdf-open");
@@ -116,8 +141,13 @@ menuLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
     openViewer(link);
+    if (link.href && window.history?.pushState) {
+      window.history.pushState({ carta: link.dataset.cartaLanguage || "" }, "", link.href);
+    }
   });
 });
+
+document.querySelector("[data-pdf-auto-open]")?.click();
 
 closeButton?.addEventListener("click", closeViewer);
 
