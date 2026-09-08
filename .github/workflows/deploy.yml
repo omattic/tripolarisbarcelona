@@ -1,4 +1,4 @@
-name: Deploy to W7S
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -7,17 +7,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: deploy-main
+  group: pages-deploy-main
   cancel-in-progress: true
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - uses: actions/checkout@v5
@@ -33,17 +37,17 @@ jobs:
         id: metadata
         run: echo "deployed_at=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_OUTPUT"
 
-      - name: Assemble W7S artifact
+      - name: Assemble GitHub Pages artifact
         env:
           DEPLOYED_AT: ${{ steps.metadata.outputs.deployed_at }}
         run: |
           set -euo pipefail
-          rm -rf .w7s-deploy
-          mkdir -p .w7s-deploy/dist
-          cp index.html styles.css script.js pdf-viewer.mjs README.md .w7s-deploy/dist/
-          cp -R qr .w7s-deploy/dist/
-          cp -R assets docs .w7s-deploy/dist/
-          cp CNAME .w7s-deploy/CNAME
+          rm -rf .github-pages
+          mkdir -p .github-pages
+          cp index.html styles.css script.js pdf-viewer.mjs README.md CNAME .github-pages/
+          cp -R qr .github-pages/
+          cp -R assets docs .github-pages/
+          touch .github-pages/.nojekyll
           node - <<'NODE'
           const fs = require("node:fs");
           const health = {
@@ -51,31 +55,33 @@ jobs:
             commitHash: process.env.GITHUB_SHA,
             deployedAt: process.env.DEPLOYED_AT
           };
-          fs.writeFileSync(".w7s-deploy/dist/health.json", `${JSON.stringify(health, null, 2)}\n`);
+          fs.writeFileSync(".github-pages/health.json", `${JSON.stringify(health, null, 2)}\n`);
           NODE
 
-      - uses: w7s-io/w7s-cloud@v1
-        with:
-          token: ${{ github.token }}
-          working-directory: .w7s-deploy
+      - uses: actions/configure-pages@v5
 
-      - name: Verify live deployment
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: .github-pages
+
+      - id: deployment
+        uses: actions/deploy-pages@v5
+
+      - name: Verify deployed page
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           set -euo pipefail
-          curl --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/" | grep -i "Tripolaris"
-          curl --location --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/qr" | grep "assets/qr/tripolaris-home.svg"
-          curl --retry 6 --retry-delay 5 --fail --show-error --silent "https://omattic.w7s.cloud/tripolarisbarcelona/health.json" | tee health.json
-          curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://tripolarisbarcelona.com/" | grep -i "Tripolaris"
-          curl --location --retry 12 --retry-delay 10 --fail --show-error --silent "https://tripolarisbarcelona.com/qr" | grep "assets/qr/tripolaris-home.svg"
-          curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://tripolarisbarcelona.com/health.json" | tee custom-health.json
-          curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://www.tripolarisbarcelona.com/" | grep -i "Tripolaris"
-          curl --location --retry 12 --retry-delay 10 --fail --show-error --silent "https://www.tripolarisbarcelona.com/qr" | grep "assets/qr/tripolaris-home.svg"
-          curl --retry 12 --retry-delay 10 --fail --show-error --silent "https://www.tripolarisbarcelona.com/health.json" | tee www-health.json
+          page_url="${PAGE_URL%/}"
+          if ! curl --retry 12 --retry-delay 10 --fail --show-error --silent "${page_url}/health.json" | tee health.json; then
+            echo "::warning::GitHub Pages deployment completed, but ${page_url}/health.json is not reachable yet. Check custom-domain DNS and certificate provisioning."
+            exit 0
+          fi
+          curl --retry 12 --retry-delay 10 --fail --show-error --silent "${page_url}/" | grep -i "Tripolaris"
+          curl --location --retry 12 --retry-delay 10 --fail --show-error --silent "${page_url}/qr" | grep "assets/qr/tripolaris-home.svg"
           node - <<'NODE'
           const fs = require("node:fs");
           const health = JSON.parse(fs.readFileSync("health.json", "utf8"));
-          const customHealth = JSON.parse(fs.readFileSync("custom-health.json", "utf8"));
-          const wwwHealth = JSON.parse(fs.readFileSync("www-health.json", "utf8"));
           if (health.branch !== process.env.GITHUB_REF_NAME) {
             throw new Error(`Live branch ${health.branch} did not match ${process.env.GITHUB_REF_NAME}`);
           }
@@ -84,23 +90,5 @@ jobs:
           }
           if (!health.deployedAt) {
             throw new Error("Live health is missing deployedAt");
-          }
-          if (customHealth.branch !== process.env.GITHUB_REF_NAME) {
-            throw new Error(`Custom-domain branch ${customHealth.branch} did not match ${process.env.GITHUB_REF_NAME}`);
-          }
-          if (customHealth.commitHash !== process.env.GITHUB_SHA) {
-            throw new Error(`Custom-domain commit ${customHealth.commitHash} did not match ${process.env.GITHUB_SHA}`);
-          }
-          if (!customHealth.deployedAt) {
-            throw new Error("Custom-domain health is missing deployedAt");
-          }
-          if (wwwHealth.branch !== process.env.GITHUB_REF_NAME) {
-            throw new Error(`WWW custom-domain branch ${wwwHealth.branch} did not match ${process.env.GITHUB_REF_NAME}`);
-          }
-          if (wwwHealth.commitHash !== process.env.GITHUB_SHA) {
-            throw new Error(`WWW custom-domain commit ${wwwHealth.commitHash} did not match ${process.env.GITHUB_SHA}`);
-          }
-          if (!wwwHealth.deployedAt) {
-            throw new Error("WWW custom-domain health is missing deployedAt");
           }
           NODE

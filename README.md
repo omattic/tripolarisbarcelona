@@ -16,9 +16,9 @@ python3 -m http.server 4177
 
 Open `http://127.0.0.1:4177/`.
 
-## W7S Deployment
+## GitHub Pages Deployment
 
-The site deploys from `main` through GitHub Actions using `w7s-io/w7s-cloud@v1`.
+The site deploys from `main` through GitHub Actions using GitHub Pages.
 
 Production URL:
 
@@ -27,10 +27,10 @@ https://tripolarisbarcelona.com/
 https://www.tripolarisbarcelona.com/
 ```
 
-W7S mounted URL:
+GitHub Pages fallback URL:
 
 ```text
-https://omattic.w7s.cloud/tripolarisbarcelona/
+https://omattic.github.io/tripolarisbarcelona/
 ```
 
 The deploy artifact includes:
@@ -45,7 +45,7 @@ That file exposes `branch`, `commitHash`, and `deployedAt` for live verification
 Manual deploy:
 
 ```bash
-gh workflow run "Deploy to W7S"
+gh workflow run "Deploy to GitHub Pages"
 ```
 
 ## Contents
@@ -55,7 +55,7 @@ gh workflow run "Deploy to W7S"
 - `script.js`: ES, CA, and EN language switcher
 - `pdf-viewer.mjs`: full-screen PDF.js carta reader
 - `assets/`: public logo, triangle art, favicon, and carta PDFs copied from the source site
-- `CNAME`: W7S custom-domain mappings for `tripolarisbarcelona.com` and `www.tripolarisbarcelona.com`
-- `.github/workflows/deploy.yml`: W7S deployment workflow
+- `CNAME`: GitHub Pages custom domain for `tripolarisbarcelona.com`
+- `.github/workflows/deploy.yml`: GitHub Pages deployment workflow
 
 The raw scrape is kept in `.scrape/` locally and ignored by git.

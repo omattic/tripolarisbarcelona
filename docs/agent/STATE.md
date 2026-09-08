@@ -4,17 +4,17 @@
 
 `tripolarisbarcelona` is a static starter copy of the public Tripolaris Barcelona website at `https://tripolarisbarcelona.com/`.
 
-It is deployed to W7S with a custom domain at:
+It is deployed to GitHub Pages with a custom domain at:
 
 ```text
 https://tripolarisbarcelona.com/
 https://www.tripolarisbarcelona.com/
 ```
 
-The W7S mounted URL remains available at:
+The GitHub Pages fallback URL is:
 
 ```text
-https://omattic.w7s.cloud/tripolarisbarcelona/
+https://omattic.github.io/tripolarisbarcelona/
 ```
 
 The repo includes:
@@ -23,7 +23,7 @@ The repo includes:
 - Public logo, triangle artwork, favicon, and 1200x630 Open Graph preview image under `assets/`.
 - Three square bar photos under `assets/` for the "Un bar con tres almas" feature cards.
 - Extracted JPG carta pages live under `assets/carta-pages/{es,ca,en}/` and are shown by the full-screen in-page menu viewer to avoid browser PDF rendering issues. Each page is cropped to 870x1238, constrained to fit inside the viewer by default, and native browser pinch zoom remains available.
-- The original carta PDFs are not shipped in the W7S artifact so the deployment stays under the 25 MB free-tier archive limit.
+- The original carta PDFs are not shipped in the deployment artifact, so the published static site stays small.
 - A stylized dark-purple and gold landing hero inspired by the Tripolaris visual reference, with centered branding and a minimal CTA.
 - Google Fonts typography uses Marcellus for headings, Cormorant Garamond for body and italic accents, and Josefin Sans for navigation, buttons, and labels.
 - Mobile typography is intentionally larger than the desktop-derived defaults for readability on small screens.
@@ -41,4 +41,4 @@ The repo includes:
 
 ## Known Gaps
 
-- As of 2026-09-08, the W7S mounted URL is healthy, but `tripolarisbarcelona.com` and `www.tripolarisbarcelona.com` fail TLS before the app is reached. Public DNS authority is Hostinger DNS (`atlas.dns-parking.com`, `hyperion.dns-parking.com`). W7S Core now includes the Cloudflare for SaaS custom-hostname fallback path for external DNS. GitHub Actions run `34174157320` reached Cloudflare Custom Hostname provisioning, but Cloudflare rejected it with `No custom metadata access has been allocated for this zone or account`. Custom-domain recovery now requires enabling Cloudflare SSL for SaaS / Custom Hostnames custom metadata access on the `w7s.cloud` account or zone, then rerunning the Tripolaris W7S deploy.
+- As of 2026-09-08, Tripolaris is moving from W7S to GitHub Pages because W7S custom-domain provisioning requires Cloudflare SSL for SaaS entitlement that is not needed for this single static site yet. GitHub Pages is enabled with GitHub Actions as the source and `tripolarisbarcelona.com` as the custom domain. HTTPS enforcement is not enabled yet because GitHub has not issued the certificate. Hostinger DNS must point the apex and `www` records to GitHub Pages before final live verification.
