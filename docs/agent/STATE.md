@@ -41,4 +41,4 @@ The repo includes:
 
 ## Known Gaps
 
-- As of 2026-09-08, Tripolaris is moving from W7S to GitHub Pages because W7S custom-domain provisioning requires Cloudflare SSL for SaaS entitlement that is not needed for this single static site yet. GitHub Pages is enabled with GitHub Actions as the source and `tripolarisbarcelona.com` as the custom domain. GitHub Actions run `34175159426` deployed commit `00e674add84b3392d674f515ee023e6054cef6f8` successfully to GitHub Pages. HTTPS enforcement is not enabled yet because GitHub has not issued the certificate. Hostinger DNS must point the apex and `www` records to GitHub Pages before final live verification.
+- As of 2026-09-08, Tripolaris is deployed from GitHub Actions to GitHub Pages because W7S custom-domain provisioning requires Cloudflare SSL for SaaS entitlement that is not needed for this single static site yet. GitHub Pages is enabled with `tripolarisbarcelona.com` as the custom domain and HTTPS enforcement enabled. GitHub Actions run `34258531599` deployed commit `bd91dc78439c2646bd1bde4a964a26910d718378` successfully to GitHub Pages, and `https://tripolarisbarcelona.com/` returns HTTP 200 from GitHub Pages.

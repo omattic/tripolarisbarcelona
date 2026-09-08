@@ -105,11 +105,9 @@ Current GitHub Pages state as of 2026-09-08:
 ```text
 build_type: workflow
 cname: tripolarisbarcelona.com
-https_enforced: false
-latest green Pages run: 34175159426 at commit 00e674add84b3392d674f515ee023e6054cef6f8
+https_enforced: true
+latest green Pages run: 34258531599 at commit bd91dc78439c2646bd1bde4a964a26910d718378
 ```
-
-Enable HTTPS enforcement after Hostinger DNS points to GitHub Pages and GitHub has issued the certificate.
 
 `CNAME` contains only the apex domain because GitHub Pages supports one custom domain in that file. When the apex and `www` DNS records are configured correctly, GitHub Pages redirects between the apex and `www` variant automatically.
 
