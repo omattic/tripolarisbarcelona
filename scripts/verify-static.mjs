@@ -16,10 +16,6 @@ const requiredFiles = [
   "assets/tripolaris-logo.png",
   "assets/tripolaris-triangle.png",
   "assets/og-tripolaris.jpg",
-  "assets/about-mixologia.jpg",
-  "assets/about-mixologia.mp4",
-  "assets/about-musica.jpg",
-  "assets/about-cultura.jpg",
   "assets/carta-es.pdf",
   "assets/carta-ca.pdf",
   "assets/carta-en.pdf",
@@ -47,9 +43,7 @@ for (const text of [
   "\"hasMap\": \"https://maps.app.goo.gl/88XmYTNnZpaWmCdq7\"",
   "assets/tripolaris-logo.png",
   "assets/tripolaris-triangle.png",
-  "assets/about-mixologia.jpg",
-  "assets/about-musica.jpg",
-  "assets/about-cultura.jpg",
+  "\"image\": \"https://tripolarisbarcelona.com/assets/og-tripolaris.jpg\"",
   "href=\"carta/es/\"",
   "href=\"carta/ca/\"",
   "href=\"carta/en/\"",
@@ -102,6 +96,12 @@ for (const text of ["Coctelería", "Cócteles", "Miércoles", "Sábado", "Catal�
 for (const text of ["Nelio", "Angelo", "Cesar", "\"founder\""]) {
   if (html.includes(text) || script.includes(text)) {
     throw new Error(`Personal name or founder metadata should not be present: ${text}`);
+  }
+}
+
+for (const text of ["feature-photo", "feature-video", "about-mixologia.mp4", "about-musica.jpg", "about-cultura.jpg"]) {
+  if (html.includes(text)) {
+    throw new Error(`Feature media should not be present in index.html: ${text}`);
   }
 }
 

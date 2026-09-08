@@ -307,21 +307,6 @@ h3 {
   background: rgba(232, 196, 111, 0.045);
 }
 
-.feature-photo {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
-  margin-top: 1rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.feature-video {
-  background: #08060f;
-}
-
 .feature-list article:nth-child(1) h3 {
   color: var(--accent);
 }
