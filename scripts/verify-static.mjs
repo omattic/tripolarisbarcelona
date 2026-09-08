@@ -54,14 +54,15 @@ for (const text of [
   "data-pdf-download=\"assets/carta-ca.pdf\"",
   "data-pdf-download=\"assets/carta-en.pdf\"",
   "data-pdf-download-link",
-  "data-page-count=\"27\"",
+  "data-page-count=\"24\"",
+  "data-page-list=\"01,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,27\"",
   "id=\"menu-pdf-viewer\"",
   "id=\"menu-pdf-pages\"",
   "aria-label=\"Carta PDF\"",
   "data-pdf-link",
   "data-pdf-loading-text",
   "script.js?v=20260902-3",
-  "pdf-viewer.mjs?v=20260908-2"
+  "pdf-viewer.mjs?v=20260908-3"
 ]) {
   if (!html.includes(text)) {
     throw new Error(`index.html is missing ${text}`);
@@ -107,7 +108,7 @@ for (const text of ["feature-photo", "feature-video", "about-mixologia.mp4", "ab
 
 for (const route of ["carta/es/index.html", "carta/ca/index.html", "carta/en/index.html"]) {
   const routeHtml = readFileSync(join(root, route), "utf8");
-  for (const text of ["data-pdf-auto-open", "data-pdf-download", "data-pdf-download-link", "data-pdf-close-home=\"../../\"", "pdf-viewer.mjs?v=20260908-2"]) {
+  for (const text of ["data-pdf-auto-open", "data-pdf-download", "data-page-count=\"24\"", "data-page-list=\"01,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,27\"", "data-pdf-download-link", "data-pdf-close-home=\"../../\"", "pdf-viewer.mjs?v=20260908-3"]) {
     if (!routeHtml.includes(text)) {
       throw new Error(`${route} is missing ${text}`);
     }
@@ -115,7 +116,7 @@ for (const route of ["carta/es/index.html", "carta/ca/index.html", "carta/en/ind
 }
 
 const pdfViewer = readFileSync(join(root, "pdf-viewer.mjs"), "utf8");
-for (const text of ["pdfLoading", "pdfError", "pagePattern", "menu-page-image", "pageNumber", "data-pdf-link", "data-pdf-download-link", "data-pdf-auto-open"]) {
+for (const text of ["pdfLoading", "pdfError", "pagePattern", "pageList", "menu-page-image", "pageNumber", "data-pdf-link", "data-pdf-download-link", "data-pdf-auto-open"]) {
   if (!pdfViewer.includes(text)) {
     throw new Error(`pdf-viewer.mjs is missing ${text}`);
   }
@@ -154,8 +155,13 @@ if (ogSize.width !== 1200 || ogSize.height !== 630) {
 for (const language of ["es", "ca", "en"]) {
   const languagePath = join(root, "assets/carta-pages", language);
   const pageFiles = readdirSync(languagePath).filter((file) => file.endsWith(".jpg"));
-  if (pageFiles.length !== 27) {
-    throw new Error(`assets/carta-pages/${language} should contain 27 JPG pages, found ${pageFiles.length}`);
+  if (pageFiles.length !== 24) {
+    throw new Error(`assets/carta-pages/${language} should contain 24 JPG pages, found ${pageFiles.length}`);
+  }
+  for (const blankPage of ["page-02.jpg", "page-23.jpg", "page-26.jpg"]) {
+    if (pageFiles.includes(blankPage)) {
+      throw new Error(`assets/carta-pages/${language}/${blankPage} should have been removed`);
+    }
   }
   for (const pageFile of pageFiles) {
     const size = jpegSize(join(languagePath, pageFile));

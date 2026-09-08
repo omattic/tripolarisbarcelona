@@ -93,6 +93,8 @@ https://tripolarisbarcelona.com/carta/ca/
 https://tripolarisbarcelona.com/carta/en/
 ```
 
+The JPG carta viewer intentionally uses 24 non-empty page images per language and omits blank pages `02`, `23`, and `26`. The downloadable PDFs remain complete.
+
 Fallback metadata:
 
 ```text

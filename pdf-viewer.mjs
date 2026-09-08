@@ -61,11 +61,22 @@ const closeViewer = () => {
   document.body.classList.remove("pdf-open");
 };
 
-const pageNumber = (value) => String(value).padStart(2, "0");
+const pageNumber = (value) => String(value).trim().padStart(2, "0");
 
 const pageUrl = (pattern, number) => pattern.replace("{page}", pageNumber(number));
 
 const absoluteUrl = (value) => new URL(value, window.location.href).href;
+
+const listedPages = (link) => {
+  const pages = (link.dataset.pageList || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+  if (pages.length) return pages;
+
+  const pageCount = Number(link.dataset.pageCount || 0);
+  return Array.from({ length: pageCount }, (_, index) => String(index + 1));
+};
 
 const setDownloadLink = (link) => {
   if (!downloadLink) return;
@@ -107,8 +118,8 @@ const buildPageImage = (pattern, number, token, onFirstPageLoaded) => {
 
 const openViewer = (link) => {
   const pattern = link.dataset.pagePattern;
-  const pageCount = Number(link.dataset.pageCount || 0);
-  if (!pattern || !pageCount || !viewer || !pages) return;
+  const pageNumbers = listedPages(link);
+  if (!pattern || !pageNumbers.length || !viewer || !pages) return;
 
   const token = ++renderToken;
   let firstPageLoaded = false;
@@ -131,7 +142,7 @@ const openViewer = (link) => {
   closeButton?.focus();
 
   const fragment = document.createDocumentFragment();
-  for (let number = 1; number <= pageCount; number += 1) {
+  for (const number of pageNumbers) {
     fragment.append(buildPageImage(pattern, number, token, onFirstPageLoaded));
   }
   pages.append(fragment);
