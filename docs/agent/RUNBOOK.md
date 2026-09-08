@@ -152,3 +152,12 @@ Error: Unable to provision Cloudflare for SaaS custom hostname tripolarisbarcelo
 ```
 
 That means the request reached the new SaaS provisioning path, but the live W7S Cloudflare token or SaaS zone entitlement still needs Custom Hostnames/SSL access.
+
+After the 2026-09-08 token update, GitHub Actions run `34174157320` reached Cloudflare Custom Hostname provisioning and failed with the entitlement-specific error:
+
+```text
+W7S deploy: error (HTTP 500)
+Error: Unable to provision Cloudflare for SaaS custom hostname tripolarisbarcelona.com: No custom metadata access has been allocated for this zone or account.
+```
+
+That means token authentication and the W7S SaaS fallback path are working, but the `w7s.cloud` Cloudflare account or zone needs SSL for SaaS / Custom Hostnames custom metadata access enabled before Tripolaris custom domains can be provisioned.
