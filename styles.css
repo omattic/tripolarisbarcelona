@@ -318,6 +318,10 @@ h3 {
   object-fit: cover;
 }
 
+.feature-video {
+  background: #08060f;
+}
+
 .feature-list article:nth-child(1) h3 {
   color: var(--accent);
 }
