@@ -54,7 +54,7 @@ gh workflow run "Deploy to GitHub Pages"
 - `styles.css`: responsive visual styling
 - `script.js`: ES, CA, and EN language switcher
 - `pdf-viewer.mjs`: full-screen PDF.js carta reader
-- `assets/`: public logo, triangle art, favicon, and carta PDFs copied from the source site
+- `assets/`: public logo, triangle art, favicon, Open Graph image, and extracted carta JPG pages
 - `CNAME`: GitHub Pages custom domain for `tripolarisbarcelona.com`
 - `.github/workflows/deploy.yml`: GitHub Pages deployment workflow
 
