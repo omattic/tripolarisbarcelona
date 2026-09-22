@@ -13,7 +13,6 @@ const requiredFiles = [
   "script.js",
   "pdf-viewer.mjs",
   "assets/favicon.svg",
-  "assets/favicon-512.png",
   "assets/tripolaris-logo.png",
   "assets/tripolaris-triangle.png",
   "assets/og-tripolaris.jpg",
@@ -155,34 +154,24 @@ if (ogSize.width !== 1200 || ogSize.height !== 630) {
   throw new Error(`assets/og-tripolaris.jpg should be 1200x630, found ${ogSize.width}x${ogSize.height}`);
 }
 
-const pngSize = (path) => {
-  const data = readFileSync(path);
-  const signature = "89504e470d0a1a0a";
-  if (data.subarray(0, 8).toString("hex") !== signature) {
-    throw new Error(`${path} is not a PNG`);
+const favicon = readFileSync(join(root, "assets/favicon.svg"), "utf8");
+for (const text of ["<svg", "viewBox=\"0 0 90.752083 82.550003\"", "fill:#e0bd6e"]) {
+  if (!favicon.includes(text)) {
+    throw new Error(`assets/favicon.svg is missing ${text}`);
   }
-  return {
-    width: data.readUInt32BE(16),
-    height: data.readUInt32BE(20)
-  };
-};
-
-const faviconSize = pngSize(join(root, "assets/favicon-512.png"));
-if (faviconSize.width !== 512 || faviconSize.height !== 512) {
-  throw new Error(`assets/favicon-512.png should be 512x512, found ${faviconSize.width}x${faviconSize.height}`);
 }
 
 for (const [route, faviconPath] of [
-  ["index.html", "assets/favicon-512.png"],
-  ["carta/index.html", "../assets/favicon-512.png"],
-  ["carta/es/index.html", "../../assets/favicon-512.png"],
-  ["carta/ca/index.html", "../../assets/favicon-512.png"],
-  ["carta/en/index.html", "../../assets/favicon-512.png"],
-  ["qr/index.html", "../assets/favicon-512.png"]
+  ["index.html", "assets/favicon.svg"],
+  ["carta/index.html", "../assets/favicon.svg"],
+  ["carta/es/index.html", "../../assets/favicon.svg"],
+  ["carta/ca/index.html", "../../assets/favicon.svg"],
+  ["carta/en/index.html", "../../assets/favicon.svg"],
+  ["qr/index.html", "../assets/favicon.svg"]
 ]) {
   const routeHtml = readFileSync(join(root, route), "utf8");
-  if (!routeHtml.includes(`href=\"${faviconPath}\" type=\"image/png\" sizes=\"512x512\"`)) {
-    throw new Error(`${route} is missing the 512x512 PNG favicon`);
+  if (!routeHtml.includes(`href=\"${faviconPath}\" type=\"image/svg+xml\"`)) {
+    throw new Error(`${route} is missing the SVG favicon`);
   }
 }
 

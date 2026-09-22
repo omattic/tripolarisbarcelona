@@ -50,7 +50,7 @@ curl -I http://127.0.0.1:4177/
 node scripts/verify-static.mjs
 ```
 
-The static verification includes the Google Analytics 4 measurement ID and confirms that `assets/favicon-512.png` is a valid 512x512 PNG.
+The static verification includes the Google Analytics 4 measurement ID and confirms the supplied SVG favicon and its route references.
 
 ## GitHub Pages Deploy
 
