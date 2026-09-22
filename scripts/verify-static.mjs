@@ -172,6 +172,20 @@ if (faviconSize.width !== 512 || faviconSize.height !== 512) {
   throw new Error(`assets/favicon-512.png should be 512x512, found ${faviconSize.width}x${faviconSize.height}`);
 }
 
+for (const [route, faviconPath] of [
+  ["index.html", "assets/favicon-512.png"],
+  ["carta/index.html", "../assets/favicon-512.png"],
+  ["carta/es/index.html", "../../assets/favicon-512.png"],
+  ["carta/ca/index.html", "../../assets/favicon-512.png"],
+  ["carta/en/index.html", "../../assets/favicon-512.png"],
+  ["qr/index.html", "../assets/favicon-512.png"]
+]) {
+  const routeHtml = readFileSync(join(root, route), "utf8");
+  if (!routeHtml.includes(`href=\"${faviconPath}\" type=\"image/png\" sizes=\"512x512\"`)) {
+    throw new Error(`${route} is missing the 512x512 PNG favicon`);
+  }
+}
+
 for (const language of ["es", "ca", "en"]) {
   const languagePath = join(root, "assets/carta-pages", language);
   const pageFiles = readdirSync(languagePath).filter((file) => file.endsWith(".jpg"));
