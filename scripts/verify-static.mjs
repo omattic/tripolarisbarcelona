@@ -13,6 +13,7 @@ const requiredFiles = [
   "script.js",
   "pdf-viewer.mjs",
   "assets/favicon.svg",
+  "assets/favicon-512.png",
   "assets/tripolaris-logo.png",
   "assets/tripolaris-triangle.png",
   "assets/og-tripolaris.jpg",
@@ -39,6 +40,8 @@ for (const text of [
   "Tripolaris | Coctelería de Autor y Música en Vivo en Les Corts, Barcelona",
   "Tripolaris: coctelería de autor, música en vivo y cultura local en Les Corts, Barcelona.",
   "https://tripolarisbarcelona.com/assets/og-tripolaris.jpg",
+  "https://www.googletagmanager.com/gtag/js?id=G-NTH8RY80CL",
+  "gtag(\"config\", \"G-NTH8RY80CL\")",
   "\"@type\": [\"BarOrPub\", \"NightClub\"]",
   "\"hasMap\": \"https://maps.app.goo.gl/88XmYTNnZpaWmCdq7\"",
   "assets/tripolaris-logo.png",
@@ -150,6 +153,23 @@ const jpegSize = (path) => {
 const ogSize = jpegSize(join(root, "assets/og-tripolaris.jpg"));
 if (ogSize.width !== 1200 || ogSize.height !== 630) {
   throw new Error(`assets/og-tripolaris.jpg should be 1200x630, found ${ogSize.width}x${ogSize.height}`);
+}
+
+const pngSize = (path) => {
+  const data = readFileSync(path);
+  const signature = "89504e470d0a1a0a";
+  if (data.subarray(0, 8).toString("hex") !== signature) {
+    throw new Error(`${path} is not a PNG`);
+  }
+  return {
+    width: data.readUInt32BE(16),
+    height: data.readUInt32BE(20)
+  };
+};
+
+const faviconSize = pngSize(join(root, "assets/favicon-512.png"));
+if (faviconSize.width !== 512 || faviconSize.height !== 512) {
+  throw new Error(`assets/favicon-512.png should be 512x512, found ${faviconSize.width}x${faviconSize.height}`);
 }
 
 for (const language of ["es", "ca", "en"]) {
