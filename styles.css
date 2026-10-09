@@ -319,6 +319,115 @@ h3 {
   color: var(--blue);
 }
 
+.gallery-section {
+  background:
+    radial-gradient(circle at 75% 15%, rgba(232, 196, 111, 0.12), transparent 28rem),
+    linear-gradient(180deg, #1f1425, var(--bg-deep));
+}
+
+.photo-carousel {
+  max-width: 74rem;
+  margin: 0 auto clamp(2.5rem, 6vw, 4.5rem);
+  outline: none;
+}
+
+.photo-carousel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 0.45rem;
+}
+
+.photo-carousel-frame {
+  min-height: clamp(24rem, 62vw, 44rem);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-deep);
+  box-shadow: 0 1.6rem 4.5rem rgba(0, 0, 0, 0.36);
+}
+
+.photo-carousel-frame img {
+  display: block;
+  width: 100%;
+  height: clamp(24rem, 62vw, 44rem);
+  object-fit: cover;
+  object-position: center;
+}
+
+.photo-carousel-controls {
+  display: grid;
+  grid-template-columns: 3rem 1fr 3rem;
+  align-items: center;
+  gap: 1rem;
+  max-width: 18rem;
+  margin: 1rem auto 0;
+}
+
+.photo-carousel-button {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(232, 196, 111, 0.06);
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.photo-carousel-button:hover,
+.photo-carousel-button:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg-deep);
+}
+
+.photo-carousel-count {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-label);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-align: center;
+}
+
+.photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.6rem, 1.5vw, 1rem);
+}
+
+.photo-gallery-item {
+  display: block;
+  min-height: 14rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+}
+
+.photo-gallery-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 0.2rem;
+}
+
+.photo-gallery-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 14rem;
+  object-fit: cover;
+  transition: transform 260ms ease, opacity 260ms ease;
+}
+
+.photo-gallery-item:hover img,
+.photo-gallery-item:focus-visible img {
+  opacity: 0.84;
+  transform: scale(1.045);
+}
+
 .menu {
   background:
     linear-gradient(135deg, rgba(232, 196, 111, 0.1), rgba(92, 57, 105, 0.26)),
@@ -722,6 +831,10 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  .photo-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .pdf-toolbar {
     align-items: center;
     flex-direction: row;
@@ -815,6 +928,17 @@ footer {
   .quick-actions,
   .social-links {
     grid-template-columns: 1fr;
+  }
+
+  .photo-carousel-frame,
+  .photo-carousel-frame img {
+    height: 28rem;
+    min-height: 0;
+  }
+
+  .photo-gallery-item,
+  .photo-gallery-item img {
+    min-height: 10.5rem;
   }
 
   .quick-actions .button.secondary,

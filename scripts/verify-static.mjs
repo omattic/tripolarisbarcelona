@@ -63,7 +63,10 @@ for (const text of [
   "aria-label=\"Carta PDF\"",
   "data-pdf-link",
   "data-pdf-loading-text",
-  "script.js?v=20260902-3",
+  "id=\"gallery\"",
+  "data-photo-carousel",
+  "data-photo-gallery",
+  "script.js?v=20261009-1",
   "pdf-viewer.mjs?v=20260908-3"
 ]) {
   if (!html.includes(text)) {
@@ -90,7 +93,7 @@ for (const lang of ["es", "ca", "en"]) {
     throw new Error(`script.js is missing ${lang} translations`);
   }
 }
-for (const text of ["Coctelería", "Cócteles", "Miércoles", "Sábado", "Català", "ànimes", "tècnica"]) {
+for (const text of ["Coctelería", "Cócteles", "Miércoles", "Sábado", "Català", "ànimes", "tècnica", "fedraPhotos", "photo-carousel", "photo-gallery", "TRIPOLARIS_OCT26-77.jpg"]) {
   if (!script.includes(text)) {
     throw new Error(`script.js is missing accented text ${text}`);
   }
@@ -125,7 +128,7 @@ for (const text of ["pdfLoading", "pdfError", "pagePattern", "pageList", "menu-p
 }
 
 const styles = readFileSync(join(root, "styles.css"), "utf8");
-for (const text of ["100dvh - 9rem", "100dvh - 10.3rem", "object-fit: contain", "pdf-download-link", "justify-content: space-between"]) {
+for (const text of ["100dvh - 9rem", "100dvh - 10.3rem", "object-fit: contain", "pdf-download-link", "justify-content: space-between", "photo-carousel", "photo-gallery"]) {
   if (!styles.includes(text)) {
     throw new Error(`styles.css is missing fitted menu image rule ${text}`);
   }
@@ -158,6 +161,21 @@ const favicon = readFileSync(join(root, "assets/favicon.svg"), "utf8");
 for (const text of ["<svg", "viewBox=\"0 0 90.752083 82.550003\"", "fill:#e0bd6e"]) {
   if (!favicon.includes(text)) {
     throw new Error(`assets/favicon.svg is missing ${text}`);
+  }
+}
+
+const fedraPath = join(root, "assets/fedra");
+const fedraPhotos = readdirSync(fedraPath).filter((file) => file.endsWith(".jpg"));
+if (fedraPhotos.length !== 21) {
+  throw new Error(`assets/fedra should contain 21 JPG photos, found ${fedraPhotos.length}`);
+}
+for (const photo of fedraPhotos) {
+  const stat = statSync(join(fedraPath, photo));
+  if (!stat.isFile() || stat.size === 0) {
+    throw new Error(`assets/fedra/${photo} is missing or empty`);
+  }
+  if (!script.includes(`\"${photo}\"`)) {
+    throw new Error(`script.js is missing assets/fedra/${photo}`);
   }
 }
 

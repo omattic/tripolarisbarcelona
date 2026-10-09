@@ -1,6 +1,7 @@
 const translations = {
   es: {
     navAbout: "Sobre Nosotros",
+    navGallery: "Galería",
     navMenu: "La Carta",
     navContact: "Contacto",
     tagline: "Creative Drinks | Cultural Vibes",
@@ -16,6 +17,11 @@ const translations = {
     featureTwoText: "Sesiones y noches culturales para quedarse un rato más.",
     featureThreeTitle: "Cultura",
     featureThreeText: "Un punto de encuentro cercano en el barrio de Les Corts.",
+    galleryEyebrow: "Momentos Tripolaris",
+    galleryTitle: "Galería",
+    carouselPrevious: "Foto anterior",
+    carouselNext: "Foto siguiente",
+    photoAlt: "Tripolaris Barcelona, octubre de 2026, foto",
     menuEyebrow: "La Carta",
     menuTitle: "Carta digital",
     menuSpanish: "Español",
@@ -37,6 +43,7 @@ const translations = {
   },
   ca: {
     navAbout: "Sobre Nosaltres",
+    navGallery: "Galeria",
     navMenu: "La Carta",
     navContact: "Contacte",
     tagline: "Creative Drinks | Cultural Vibes",
@@ -52,6 +59,11 @@ const translations = {
     featureTwoText: "Sessions i nits culturals per quedar-se una estona més.",
     featureThreeTitle: "Cultura",
     featureThreeText: "Un punt de trobada proper al barri de Les Corts.",
+    galleryEyebrow: "Moments Tripolaris",
+    galleryTitle: "Galeria",
+    carouselPrevious: "Foto anterior",
+    carouselNext: "Foto següent",
+    photoAlt: "Tripolaris Barcelona, octubre de 2026, foto",
     menuEyebrow: "La Carta",
     menuTitle: "Carta digital",
     menuSpanish: "Espanyol",
@@ -73,6 +85,7 @@ const translations = {
   },
   en: {
     navAbout: "About Us",
+    navGallery: "Gallery",
     navMenu: "Menu",
     navContact: "Contact",
     tagline: "Creative Drinks | Cultural Vibes",
@@ -88,6 +101,11 @@ const translations = {
     featureTwoText: "Sessions and cultural nights made for staying a little longer.",
     featureThreeTitle: "Culture",
     featureThreeText: "A welcoming meeting point in the Les Corts neighborhood.",
+    galleryEyebrow: "Tripolaris moments",
+    galleryTitle: "Gallery",
+    carouselPrevious: "Previous photo",
+    carouselNext: "Next photo",
+    photoAlt: "Tripolaris Barcelona, October 2026, photo",
     menuEyebrow: "Menu",
     menuTitle: "Digital menu",
     menuSpanish: "Spanish",
@@ -118,6 +136,12 @@ const applyLanguage = (language) => {
       element.textContent = dictionary[key];
     }
   });
+  document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+    const key = element.getAttribute("data-i18n-aria-label");
+    if (dictionary[key]) {
+      element.setAttribute("aria-label", dictionary[key]);
+    }
+  });
   document.querySelectorAll("[data-lang]").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === language);
   });
@@ -129,3 +153,72 @@ window.tripolarisTranslations = translations;
 document.querySelectorAll("[data-lang]").forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.lang));
 });
+
+const fedraPhotos = [
+  "TRIPOLARIS_OCT26-1.jpg",
+  "TRIPOLARIS_OCT26-2.jpg",
+  "TRIPOLARIS_OCT26-6.jpg",
+  "TRIPOLARIS_OCT26-12.jpg",
+  "TRIPOLARIS_OCT26-13.jpg",
+  "TRIPOLARIS_OCT26-17.jpg",
+  "TRIPOLARIS_OCT26-19.jpg",
+  "TRIPOLARIS_OCT26-26.jpg",
+  "TRIPOLARIS_OCT26-28.jpg",
+  "TRIPOLARIS_OCT26-29.jpg",
+  "TRIPOLARIS_OCT26-34.jpg",
+  "TRIPOLARIS_OCT26-40.jpg",
+  "TRIPOLARIS_OCT26-61.jpg",
+  "TRIPOLARIS_OCT26-63.jpg",
+  "TRIPOLARIS_OCT26-65.jpg",
+  "TRIPOLARIS_OCT26-66.jpg",
+  "TRIPOLARIS_OCT26-68.jpg",
+  "TRIPOLARIS_OCT26-71.jpg",
+  "TRIPOLARIS_OCT26-75.jpg",
+  "TRIPOLARIS_OCT26-76.jpg",
+  "TRIPOLARIS_OCT26-77.jpg"
+];
+
+const photoSource = (fileName) => `assets/fedra/${fileName}`;
+const photoDescription = (index) => `${(translations[document.documentElement.lang] || translations.es).photoAlt} ${index + 1}`;
+const gallery = document.querySelector("[data-photo-gallery]");
+const carousel = document.querySelector("[data-photo-carousel]");
+
+if (gallery) {
+  gallery.innerHTML = fedraPhotos.map((fileName, index) => `
+    <a class="photo-gallery-item" href="${photoSource(fileName)}" target="_blank" rel="noopener">
+      <img src="${photoSource(fileName)}" alt="${photoDescription(index)}" loading="lazy" decoding="async" />
+    </a>
+  `).join("");
+}
+
+if (carousel) {
+  const carouselImage = carousel.querySelector("[data-carousel-image]");
+  const carouselCount = carousel.querySelector("[data-carousel-count]");
+  let activePhoto = 0;
+
+  const renderCarousel = () => {
+    carouselImage.src = photoSource(fedraPhotos[activePhoto]);
+    carouselImage.alt = photoDescription(activePhoto);
+    carouselCount.textContent = `${activePhoto + 1} / ${fedraPhotos.length}`;
+  };
+
+  carousel.querySelector("[data-carousel-previous]").addEventListener("click", () => {
+    activePhoto = (activePhoto - 1 + fedraPhotos.length) % fedraPhotos.length;
+    renderCarousel();
+  });
+  carousel.querySelector("[data-carousel-next]").addEventListener("click", () => {
+    activePhoto = (activePhoto + 1) % fedraPhotos.length;
+    renderCarousel();
+  });
+  carousel.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") carousel.querySelector("[data-carousel-previous]").click();
+    if (event.key === "ArrowRight") carousel.querySelector("[data-carousel-next]").click();
+  });
+  window.addEventListener("tripolaris:languagechange", () => {
+    renderCarousel();
+    gallery?.querySelectorAll("img").forEach((image, index) => {
+      image.alt = photoDescription(index);
+    });
+  });
+  renderCarousel();
+}

@@ -117,6 +117,7 @@
       </a>
       <nav class="main-nav" aria-label="Main navigation">
         <a href="#about" data-i18n="navAbout">Sobre Nosotros</a>
+        <a href="#gallery" data-i18n="navGallery">Galería</a>
         <a href="#menu" data-i18n="navMenu">La Carta</a>
         <a href="#contact" data-i18n="navContact">Contacto</a>
       </nav>
@@ -166,6 +167,28 @@
             </article>
           </div>
         </div>
+      </section>
+
+      <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="galleryEyebrow">Momentos Tripolaris</p>
+          <h2 id="gallery-title" data-i18n="galleryTitle">Galería</h2>
+        </div>
+        <div class="photo-carousel" data-photo-carousel aria-roledescription="carousel" aria-label="Galería de fotos" tabindex="0">
+          <div class="photo-carousel-frame">
+            <img data-carousel-image src="assets/fedra/TRIPOLARIS_OCT26-1.jpg" alt="Tripolaris Barcelona, octubre de 2026, foto 1" />
+          </div>
+          <div class="photo-carousel-controls">
+            <button class="photo-carousel-button" type="button" data-carousel-previous data-i18n-aria-label="carouselPrevious" aria-label="Foto anterior">
+              <span aria-hidden="true">←</span>
+            </button>
+            <p class="photo-carousel-count" data-carousel-count aria-live="polite">1 / 21</p>
+            <button class="photo-carousel-button" type="button" data-carousel-next data-i18n-aria-label="carouselNext" aria-label="Foto siguiente">
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+        <div class="photo-gallery" data-photo-gallery aria-label="Galería de fotos de Tripolaris"></div>
       </section>
 
       <section class="section menu" id="menu" aria-labelledby="menu-title">
@@ -252,7 +275,7 @@
       </div>
     </div>
 
-    <script src="script.js?v=20260902-3"></script>
+    <script src="script.js?v=20261009-1"></script>
     <script type="module" src="pdf-viewer.mjs?v=20260908-3"></script>
   </body>
 </html>
