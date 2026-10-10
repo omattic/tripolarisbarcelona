@@ -353,6 +353,17 @@ h3 {
   object-position: center;
 }
 
+.progressive-image {
+  filter: blur(13px);
+  transform: scale(1.035);
+  transition: filter 320ms ease, transform 320ms ease;
+}
+
+.progressive-image.is-loaded {
+  filter: blur(0);
+  transform: scale(1);
+}
+
 .photo-carousel-controls {
   display: grid;
   grid-template-columns: 3rem 1fr 3rem;
@@ -419,7 +430,7 @@ h3 {
   height: 100%;
   min-height: 14rem;
   object-fit: cover;
-  transition: transform 260ms ease, opacity 260ms ease;
+  transition: filter 320ms ease, transform 260ms ease, opacity 260ms ease;
 }
 
 .photo-gallery-item:hover img,

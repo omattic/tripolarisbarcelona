@@ -52,6 +52,8 @@ node scripts/verify-static.mjs
 
 The static verification includes the Google Analytics 4 measurement ID and confirms the supplied SVG favicon and its route references.
 
+It also confirms the 21 Fedra originals and their matching progressive WebP preview, gallery, and carousel variants.
+
 ## GitHub Pages Deploy
 
 Deployment runs from GitHub Actions on pushes to `main`.

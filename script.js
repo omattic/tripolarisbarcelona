@@ -179,16 +179,45 @@ const fedraPhotos = [
 ];
 
 const photoSource = (fileName) => `assets/fedra/${fileName}`;
+const photoVariant = (fileName, size) => `assets/fedra/${size}/${fileName.replace(/\.jpg$/, ".webp")}`;
 const photoDescription = (index) => `${(translations[document.documentElement.lang] || translations.es).photoAlt} ${index + 1}`;
 const gallery = document.querySelector("[data-photo-gallery]");
 const carousel = document.querySelector("[data-photo-carousel]");
 
+const loadProgressiveImage = (image, source) => {
+  image.dataset.progressiveSource = source;
+  image.classList.remove("is-loaded");
+  const highQualityImage = new Image();
+  highQualityImage.decoding = "async";
+  highQualityImage.onload = () => {
+    if (image.dataset.progressiveSource === source) {
+      image.src = source;
+      image.classList.add("is-loaded");
+    }
+  };
+  highQualityImage.src = source;
+};
+
 if (gallery) {
   gallery.innerHTML = fedraPhotos.map((fileName, index) => `
     <a class="photo-gallery-item" href="${photoSource(fileName)}" target="_blank" rel="noopener">
-      <img src="${photoSource(fileName)}" alt="${photoDescription(index)}" loading="lazy" decoding="async" />
+      <img class="progressive-image" src="${photoVariant(fileName, "preview")}" data-progressive-target="${photoVariant(fileName, "thumb")}" alt="${photoDescription(index)}" loading="lazy" decoding="async" />
     </a>
   `).join("");
+
+  const galleryImages = [...gallery.querySelectorAll("img")];
+  const loadGalleryImage = (image) => loadProgressiveImage(image, image.dataset.progressiveTarget);
+  if ("IntersectionObserver" in window) {
+    const galleryObserver = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => entry.isIntersecting).forEach((entry) => {
+        loadGalleryImage(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "360px 0px" });
+    galleryImages.forEach((image) => galleryObserver.observe(image));
+  } else {
+    galleryImages.forEach(loadGalleryImage);
+  }
 }
 
 if (carousel) {
@@ -197,9 +226,10 @@ if (carousel) {
   let activePhoto = 0;
 
   const renderCarousel = () => {
-    carouselImage.src = photoSource(fedraPhotos[activePhoto]);
+    carouselImage.src = photoVariant(fedraPhotos[activePhoto], "preview");
     carouselImage.alt = photoDescription(activePhoto);
     carouselCount.textContent = `${activePhoto + 1} / ${fedraPhotos.length}`;
+    loadProgressiveImage(carouselImage, photoVariant(fedraPhotos[activePhoto], "web"));
   };
 
   carousel.querySelector("[data-carousel-previous]").addEventListener("click", () => {

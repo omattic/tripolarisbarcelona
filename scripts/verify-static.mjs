@@ -94,7 +94,7 @@ for (const lang of ["es", "ca", "en"]) {
     throw new Error(`script.js is missing ${lang} translations`);
   }
 }
-for (const text of ["Coctelería", "Cócteles", "Miércoles", "Sábado", "Català", "ànimes", "tècnica", "fedraPhotos", "photo-carousel", "photo-gallery", "TRIPOLARIS_OCT26-77.jpg"]) {
+for (const text of ["Coctelería", "Cócteles", "Miércoles", "Sábado", "Català", "ànimes", "tècnica", "fedraPhotos", "photo-carousel", "photo-gallery", "TRIPOLARIS_OCT26-77.jpg", "photoVariant", "IntersectionObserver", "loadProgressiveImage"]) {
   if (!script.includes(text)) {
     throw new Error(`script.js is missing accented text ${text}`);
   }
@@ -189,6 +189,20 @@ for (const photo of fedraPhotos) {
   }
   if (!script.includes(`\"${photo}\"`)) {
     throw new Error(`script.js is missing assets/fedra/${photo}`);
+  }
+}
+for (const variant of ["preview", "thumb", "web"]) {
+  const variantPath = join(fedraPath, variant);
+  const variantPhotos = readdirSync(variantPath).filter((file) => file.endsWith(".webp"));
+  if (variantPhotos.length !== fedraPhotos.length) {
+    throw new Error(`assets/fedra/${variant} should contain ${fedraPhotos.length} WebP photos, found ${variantPhotos.length}`);
+  }
+  for (const photo of fedraPhotos) {
+    const variantPhoto = photo.replace(/\.jpg$/, ".webp");
+    const stat = statSync(join(variantPath, variantPhoto));
+    if (!stat.isFile() || stat.size === 0) {
+      throw new Error(`assets/fedra/${variant}/${variantPhoto} is missing or empty`);
+    }
   }
 }
 
