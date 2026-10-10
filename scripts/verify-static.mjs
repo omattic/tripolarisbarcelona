@@ -43,6 +43,7 @@ for (const text of [
   "gtag(\"config\", \"G-NTH8RY80CL\")",
   "\"@type\": [\"BarOrPub\", \"NightClub\"]",
   "\"hasMap\": \"https://maps.app.goo.gl/88XmYTNnZpaWmCdq7\"",
+  "\"dayOfWeek\": [\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\"]",
   "assets/tripolaris-logo.png",
   "assets/tripolaris-triangle.png",
   "\"image\": \"https://tripolarisbarcelona.com/assets/og-tripolaris.jpg\"",
@@ -103,6 +104,18 @@ for (const text of ["Nelio", "Angelo", "Cesar", "\"founder\""]) {
   if (html.includes(text) || script.includes(text)) {
     throw new Error(`Personal name or founder metadata should not be present: ${text}`);
   }
+}
+
+for (const text of [
+  "<div><span data-i18n=\"tuesday\">Martes</span><strong>16:30-01:00</strong></div>",
+  "<div><span data-i18n=\"sunday\">Domingo</span><strong data-i18n=\"closed\">Cerrado</strong></div>"
+]) {
+  if (!html.includes(text)) {
+    throw new Error(`index.html is missing the updated opening-hours entry ${text}`);
+  }
+}
+if (html.includes("\"dayOfWeek\": [\"Sunday\"]") || html.includes("<div><span data-i18n=\"tuesday\">Martes</span><strong data-i18n=\"closed\">Cerrado</strong></div>")) {
+  throw new Error("index.html retains a stale Sunday opening hour or closed Tuesday entry");
 }
 
 for (const text of ["feature-photo", "feature-video", "about-mixologia.mp4", "about-musica.jpg", "about-cultura.jpg"]) {
